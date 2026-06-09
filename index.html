@@ -488,7 +488,7 @@ function setSyncStatus(state, text) {
 async function fetchExpenses() {
   try {
     setSyncStatus('loading', 'Učitavanje...');
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/${encodeURIComponent(TABLE)}?select=*&order=created_at.asc`, {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/${encodeURIComponent(TABLE)}?select=*`, {
       headers: {
         'apikey': SUPABASE_KEY,
         'Authorization': 'Bearer ' + SUPABASE_KEY
