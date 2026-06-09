@@ -569,11 +569,11 @@ async function fetchExpenses() {
     const data = await res.json();
     expenses = data.map(r => ({
       id: String(r.id),
-      desc: r.OPIS || '',
-      amount: parseFloat(r.IZNOS) || 0,
-      category: r.KATEGORIJA || '',
-      who: r.TKO || '',
-      date: r.DATUM || ''
+      desc: r.opis || '',
+      amount: parseFloat(r.iznos) || 0,
+      category: r.kategorija || '',
+      who: r.tko || '',
+      date: r.datum || ''
     }));
     const now = new Date();
     setSyncStatus('ok', 'Sinkronizirano ' + now.toLocaleTimeString('hr-HR', {hour:'2-digit',minute:'2-digit'}));
@@ -585,23 +585,33 @@ async function fetchExpenses() {
 }
 
 async function pushExpense(expense) {
-  const res = await fetch(`${SUPABASE_URL}/rest/v1/${encodeURIComponent(TABLE)}`, {
-    method: 'POST',
-    headers: {
-      'apikey': SUPABASE_KEY,
-      'Authorization': 'Bearer ' + SUPABASE_KEY,
-      'Content-Type': 'application/json',
-      'Prefer': 'return=minimal'
-    },
-    body: JSON.stringify({
-      OPIS: expense.desc,
-      IZNOS: expense.amount,
-      KATEGORIJA: expense.category,
-      TKO: expense.who,
-      DATUM: expense.date
-    })
+  const body = JSON.stringify({
+    opis: expense.desc,
+    iznos: expense.amount,
+    kategorija: expense.category,
+    tko: expense.who,
+    datum: expense.date
   });
-  if (!res.ok) throw new Error('Insert failed');
+  const headers = {
+    'apikey': SUPABASE_KEY,
+    'Authorization': 'Bearer ' + SUPABASE_KEY,
+    'Content-Type': 'application/json',
+    'Prefer': 'return=minimal',
+    'Resolution': 'ignore-duplicates'
+  };
+  // Try up to 3 times
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    try {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/${encodeURIComponent(TABLE)}`, {
+        method: 'POST', headers, body
+      });
+      if (res.ok) return;
+      if (attempt === 3) throw new Error('Insert failed after 3 attempts');
+    } catch(e) {
+      if (attempt === 3) throw e;
+      await new Promise(r => setTimeout(r, 1000 * attempt));
+    }
+  }
 }
 
 async function pushDelete(id) {
@@ -894,11 +904,11 @@ async function fetchIncomes() {
     if (Array.isArray(data)) {
       incomes = data.map(r => ({
         id: String(r.id),
-        desc: r.OPIS || '',
-        amount: parseFloat(r.IZNOS) || 0,
-        category: r.KATEGORIJA || '',
-        who: r.TKO || '',
-        date: r.DATUM || ''
+        desc: r.opis || '',
+        amount: parseFloat(r.iznos) || 0,
+        category: r.kategorija || '',
+        who: r.tko || '',
+        date: r.datum || ''
       }));
     }
   } catch(e) { console.error('Income fetch error:', e); }
@@ -914,11 +924,11 @@ async function pushIncome(income) {
       'Prefer': 'return=minimal'
     },
     body: JSON.stringify({
-      OPIS: income.desc,
-      IZNOS: income.amount,
-      KATEGORIJA: income.category,
-      TKO: income.who,
-      DATUM: income.date
+      opis: income.desc,
+      iznos: income.amount,
+      kategorija: income.category,
+      tko: income.who,
+      datum: income.date
     })
   });
   if (!res.ok) throw new Error('Insert failed');
