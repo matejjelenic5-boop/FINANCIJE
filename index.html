@@ -360,7 +360,7 @@
       <div class="month-label" id="headerMonth"></div>
     </div>
     <div class="header-total">
-      <div class="total-label">Ukupno</div>
+      <div class="total-label">Saldo</div>
       <div class="total-amount" id="totalAmount">0 <span>EUR</span></div>
     </div>
   </div>
@@ -382,16 +382,30 @@
   <div id="expenseList"></div>
 </div>
 
+<div id="viewPrihodi" class="view">
+  <div id="incomeList"></div>
+</div>
+
 <div id="viewStatistike" class="view">
   <div class="stats-view" id="statsContent"></div>
 </div>
 
-<button class="fab" onclick="openModal()">+</button>
+<div style="position:fixed;bottom:90px;right:20px;z-index:100;display:flex;flex-direction:column;align-items:flex-end;gap:10px" id="fabContainer">
+  <div id="fabMenu" style="display:none;flex-direction:column;gap:8px;align-items:flex-end">
+    <button onclick="openIncomeModal()" style="background:#4ecca3;border:none;border-radius:24px;padding:10px 18px;color:#0a1628;font-weight:700;font-size:14px;cursor:pointer;white-space:nowrap">+ Prihod</button>
+    <button onclick="openModal();toggleFab()" style="background:#e94560;border:none;border-radius:24px;padding:10px 18px;color:#fff;font-weight:700;font-size:14px;cursor:pointer;white-space:nowrap">+ Trošak</button>
+  </div>
+  <button class="fab" onclick="toggleFab()" id="mainFab" style="position:static">+</button>
+</div>
 
 <nav class="bottom-nav">
   <button class="nav-item active" id="navTransakcije" onclick="switchView('Transakcije')">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
     Troškovi
+  </button>
+  <button class="nav-item" id="navPrihodi" onclick="switchView('Prihodi')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+    Prihodi
   </button>
   <button class="nav-item" id="navStatistike" onclick="switchView('Statistike')">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 17v-4M12 17v-7M16 17v-2"/></svg>
@@ -439,6 +453,47 @@
   </div>
 </div>
 
+<!-- ADD INCOME MODAL -->
+<div class="modal-overlay" id="incomeModalOverlay" onclick="closeIncomeModalOutside(event)">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title" style="color:#4ecca3">Novi prihod</div>
+
+    <div class="form-group">
+      <label class="form-label">Opis</label>
+      <input class="form-input" id="inputIncomeDesc" type="text" placeholder="npr. Plaća za lipanj" autocomplete="off">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Iznos</label>
+      <div class="amount-row">
+        <input class="form-input" id="inputIncomeAmount" type="number" inputmode="decimal" placeholder="0.00" step="0.01" min="0">
+        <div class="currency-badge">EUR</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Tko je primio</label>
+      <div class="who-row">
+        <button class="who-btn active" id="whoIncomeMatej" onclick="selectIncomeWho('Matej')">🧔 Matej</button>
+        <button class="who-btn" id="whoIncomeMartina" onclick="selectIncomeWho('Martina')">👩 Martina</button>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Kategorija</label>
+      <div class="cat-grid" id="incomeCatGrid"></div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Datum</label>
+      <input class="form-input" id="inputIncomeDate" type="date">
+    </div>
+
+    <button class="submit-btn" id="incomeSubmitBtn" onclick="addIncome()" style="background:#4ecca3;color:#0a1628">Dodaj prihod</button>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -464,16 +519,28 @@ const CATEGORIES = [
   { id: 'zabava',    name: 'Zabava',     icon: '🎉', color: '#fdcb6e' },
   { id: 'materijal', name: 'Materijal',  icon: '🧱', color: '#b8860b' },
   { id: 'majstor',   name: 'Majstor',    icon: '👷', color: '#cd853f' },
+  { id: 'rodjendan', name: 'Rođendan',   icon: '🎂', color: '#fd79a8' },
   { id: 'ostalo',    name: 'Ostalo',     icon: '📦', color: '#636e72' },
 ];
 
 let expenses = [];
+let incomes = [];
 let selectedCat = null;
 let selectedWho = 'Matej';
 let filterCat = null;
 let currentDate = new Date();
 let currentView = 'Transakcije';
 let syncInterval = null;
+
+const INCOME_CATEGORIES = [
+  { id: 'placa',       name: 'Plaća',       icon: '💰', color: '#4ecca3' },
+  { id: 'poklon',      name: 'Poklon',      icon: '🎁', color: '#fd79a8' },
+  { id: 'najam',       name: 'Najam',       icon: '🏠', color: '#45aaf2' },
+  { id: 'investicije', name: 'Investicije', icon: '📈', color: '#f7b731' },
+  { id: 'bonus',       name: 'Bonus',       icon: '⭐', color: '#a55eea' },
+  { id: 'prodaja',     name: 'Prodaja',     icon: '🤝', color: '#fd9644' },
+  { id: 'ostalo',      name: 'Ostalo',      icon: '💵', color: '#636e72' },
+];
 
 const MONTHS = ['Siječanj','Veljača','Ožujak','Travanj','Svibanj','Lipanj','Srpanj','Kolovoz','Rujan','Listopad','Studeni','Prosinac'];
 
@@ -572,10 +639,16 @@ function render() {
   document.getElementById('headerMonth').textContent = ml;
   document.getElementById('currentMonth').textContent = ml;
   const monthExp = getMonthExpenses();
-  const total = monthExp.reduce((s, e) => s + e.amount, 0);
-  document.getElementById('totalAmount').innerHTML = `${formatAmt(total)} <span>EUR</span>`;
+  const monthInc = getMonthIncomes();
+  const totalExp = monthExp.reduce((s, e) => s + e.amount, 0);
+  const totalInc = monthInc.reduce((s, e) => s + e.amount, 0);
+  const saldo = totalInc - totalExp;
+  const saldoEl = document.getElementById('totalAmount');
+  saldoEl.innerHTML = `${formatAmt(saldo)} <span>EUR</span>`;
+  saldoEl.style.color = saldo >= 0 ? '#4ecca3' : '#e94560';
   renderCatPills(monthExp);
   if (currentView === 'Transakcije') renderList(monthExp);
+  else if (currentView === 'Prihodi') renderIncomeList(monthInc);
   else renderStats(monthExp);
 }
 
@@ -785,8 +858,10 @@ async function addExpense() {
 function switchView(view) {
   currentView = view;
   document.getElementById('viewTransakcije').classList.toggle('active', view==='Transakcije');
+  document.getElementById('viewPrihodi').classList.toggle('active', view==='Prihodi');
   document.getElementById('viewStatistike').classList.toggle('active', view==='Statistike');
   document.getElementById('navTransakcije').classList.toggle('active', view==='Transakcije');
+  document.getElementById('navPrihodi').classList.toggle('active', view==='Prihodi');
   document.getElementById('navStatistike').classList.toggle('active', view==='Statistike');
   render();
 }
@@ -798,14 +873,210 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 2500);
 }
 
+
+// ── INCOME FUNCTIONS ─────────────────────────────────
+let selectedIncomeCat = null;
+let selectedIncomeWho = 'Matej';
+
+function incCatById(id) { return INCOME_CATEGORIES.find(c => c.id === id) || INCOME_CATEGORIES[INCOME_CATEGORIES.length-1]; }
+
+async function fetchIncomes() {
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/prihodi?select=*`, {
+      headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
+    });
+    const data = await res.json();
+    if (Array.isArray(data)) {
+      incomes = data.map(r => ({
+        id: String(r.id),
+        desc: r.OPIS || '',
+        amount: parseFloat(r.IZNOS) || 0,
+        category: r.KATEGORIJA || '',
+        who: r.TKO || '',
+        date: r.DATUM || ''
+      }));
+    }
+  } catch(e) { console.error('Income fetch error:', e); }
+}
+
+async function pushIncome(income) {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/prihodi`, {
+    method: 'POST',
+    headers: {
+      'apikey': SUPABASE_KEY,
+      'Authorization': 'Bearer ' + SUPABASE_KEY,
+      'Content-Type': 'application/json',
+      'Prefer': 'return=minimal'
+    },
+    body: JSON.stringify({
+      OPIS: income.desc,
+      IZNOS: income.amount,
+      KATEGORIJA: income.category,
+      TKO: income.who,
+      DATUM: income.date
+    })
+  });
+  if (!res.ok) throw new Error('Insert failed');
+}
+
+async function pushDeleteIncome(id) {
+  await fetch(`${SUPABASE_URL}/rest/v1/prihodi?id=eq.${id}`, {
+    method: 'DELETE',
+    headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
+  });
+}
+
+function getMonthIncomes() {
+  return incomes.filter(e => {
+    const d = new Date(e.date + 'T00:00:00');
+    return d.getMonth() === currentDate.getMonth() && d.getFullYear() === currentDate.getFullYear();
+  });
+}
+
+function renderIncomeList(monthInc) {
+  const list = document.getElementById('incomeList');
+  let filtered = [...monthInc].sort((a,b) => new Date(b.date) - new Date(a.date));
+  if (!filtered.length) {
+    list.innerHTML = `<div class="empty-state"><div class="empty-icon">💰</div><div class="empty-text">Nema prihoda za ovaj mjesec.<br>Dodaj prvi prihod!</div></div>`;
+    return;
+  }
+  const groups = {};
+  filtered.forEach(e => {
+    const d = new Date(e.date + 'T00:00:00');
+    const key = d.toLocaleDateString('hr-HR', { weekday:'short', day:'numeric', month:'long' });
+    if (!groups[key]) groups[key] = [];
+    groups[key].push(e);
+  });
+  let html = '';
+  Object.entries(groups).forEach(([date, items]) => {
+    const dayTotal = items.reduce((s,e)=>s+e.amount, 0);
+    html += `<div class="section-header">${date} — ${formatAmt(dayTotal)} €</div>`;
+    items.forEach(e => {
+      const cat = incCatById(e.category);
+      html += `<div class="expense-item" id="inc-${e.id}" onclick="toggleExpandInc('${e.id}')">
+        <div class="expense-icon" style="background:${cat.color}22">${cat.icon}</div>
+        <div class="expense-info">
+          <div class="expense-desc">${e.desc || cat.name}</div>
+          <div class="expense-meta">${cat.name}</div>
+        </div>
+        <div class="expense-right">
+          <div class="expense-amount" style="color:#4ecca3">+${formatAmt(e.amount)} €</div>
+          <div class="expense-who">${e.who}</div>
+        </div>
+        <button class="delete-btn" onclick="deleteIncome(event,'${e.id}')">✕</button>
+      </div>`;
+    });
+  });
+  list.innerHTML = html;
+}
+
+function toggleExpandInc(id) {
+  const el = document.getElementById('inc-' + id);
+  const wasExpanded = el.classList.contains('expanded');
+  document.querySelectorAll('.expense-item.expanded').forEach(e => e.classList.remove('expanded'));
+  if (!wasExpanded) el.classList.add('expanded');
+}
+
+async function deleteIncome(ev, id) {
+  ev.stopPropagation();
+  if (!confirm('Obrisati ovaj prihod?')) return;
+  try {
+    await pushDeleteIncome(id);
+    await fetchIncomes();
+    render();
+    showToast('✓ Prihod obrisan');
+  } catch(e) { showToast('⚠️ Greška pri brisanju'); }
+}
+
+function openIncomeModal() {
+  toggleFab();
+  document.getElementById('incomeModalOverlay').classList.add('open');
+  document.getElementById('inputIncomeDate').value = new Date().toISOString().split('T')[0];
+  document.getElementById('inputIncomeDesc').focus();
+}
+
+function closeIncomeModal() {
+  document.getElementById('incomeModalOverlay').classList.remove('open');
+  selectedIncomeCat = null;
+  selectedIncomeWho = 'Matej';
+  document.getElementById('inputIncomeDesc').value = '';
+  document.getElementById('inputIncomeAmount').value = '';
+  document.getElementById('incomeSubmitBtn').disabled = false;
+  document.getElementById('incomeSubmitBtn').textContent = 'Dodaj prihod';
+  selectIncomeWho('Matej');
+  document.querySelectorAll('#incomeCatGrid .cat-btn').forEach(b => b.classList.remove('selected'));
+}
+
+function closeIncomeModalOutside(ev) {
+  if (ev.target === document.getElementById('incomeModalOverlay')) closeIncomeModal();
+}
+
+function selectIncomeWho(who) {
+  selectedIncomeWho = who;
+  document.getElementById('whoIncomeMatej').classList.toggle('active', who==='Matej');
+  document.getElementById('whoIncomeMartina').classList.toggle('active', who==='Martina');
+}
+
+function buildIncomeCatGrid() {
+  const grid = document.getElementById('incomeCatGrid');
+  grid.innerHTML = INCOME_CATEGORIES.map(c =>
+    `<div class="cat-btn" id="inccatbtn-${c.id}" onclick="selectIncomeCat('${c.id}')">
+      <span class="cat-btn-icon">${c.icon}</span>
+      <span class="cat-btn-name">${c.name}</span>
+    </div>`
+  ).join('');
+}
+
+function selectIncomeCat(id) {
+  selectedIncomeCat = id;
+  document.querySelectorAll('#incomeCatGrid .cat-btn').forEach(b => b.classList.remove('selected'));
+  document.getElementById('inccatbtn-' + id).classList.add('selected');
+}
+
+async function addIncome() {
+  const desc = document.getElementById('inputIncomeDesc').value.trim();
+  const amount = parseFloat(document.getElementById('inputIncomeAmount').value);
+  const date = document.getElementById('inputIncomeDate').value;
+  if (!amount || amount <= 0) { showToast('⚠️ Unesi iznos!'); return; }
+  if (!selectedIncomeCat) { showToast('⚠️ Odaberi kategoriju!'); return; }
+  if (!date) { showToast('⚠️ Odaberi datum!'); return; }
+  const cat = incCatById(selectedIncomeCat);
+  const income = { id: Date.now().toString(), desc: desc || cat.name, amount, category: selectedIncomeCat, who: selectedIncomeWho, date };
+  const btn = document.getElementById('incomeSubmitBtn');
+  btn.disabled = true; btn.textContent = 'Spremanje...';
+  setSyncStatus('loading', 'Spremanje...');
+  try {
+    await pushIncome(income);
+    closeIncomeModal();
+    await fetchIncomes();
+    currentDate = new Date(date + 'T00:00:00');
+    render();
+    showToast('✓ Prihod dodan!');
+  } catch(e) {
+    btn.disabled = false; btn.textContent = 'Dodaj prihod';
+    setSyncStatus('err', 'Greška pri spremanju');
+    showToast('⚠️ Greška — provjeri internet');
+  }
+}
+
+function toggleFab() {
+  const menu = document.getElementById('fabMenu');
+  const fab = document.getElementById('mainFab');
+  const isOpen = menu.style.display === 'flex';
+  menu.style.display = isOpen ? 'none' : 'flex';
+  fab.textContent = isOpen ? '+' : '✕';
+}
+
 // ── INIT ──────────────────────────────────────────────
 buildCatGrid();
+buildIncomeCatGrid();
 fetchExpenses();
+fetchIncomes();
 // Auto-refresh svakih 30 sekundi
-syncInterval = setInterval(fetchExpenses, 30000);
+syncInterval = setInterval(() => { fetchExpenses(); fetchIncomes(); }, 30000);
 // Refresh kad se vrati u app (npr. iz backgrounda)
 document.addEventListener('visibilitychange', () => {
-  if (document.visibilityState === 'visible') fetchExpenses();
+  if (document.visibilityState === 'visible') { fetchExpenses(); fetchIncomes(); }
 });
 </script>
 </body>
