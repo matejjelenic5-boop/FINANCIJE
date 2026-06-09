@@ -442,8 +442,9 @@
 <div class="toast" id="toast"></div>
 
 <script>
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbygzn4GanGvaeyu_mQHOOTOqJgrvDnEJ2ZqX0qBz9SVZlDRVgkpWiVDbZddSD9H_Jx7/exec';
-const SHEET_ID = '1_HM6gqSf3EoTCkLbMUgl5dvIT13oUYSHwjcaziDuSd8';
+const SUPABASE_URL = 'https://erlgqhhzihqsjtzqcxta.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_dhB6B4jbLYxC7l8Xh1i1cg_tlcCeyhn';
+const TABLE = 'TROŠKOVI';
 
 const CATEGORIES = [
   { id: 'hrana',     name: 'Hrana',      icon: '🛒', color: '#4ecca3' },
@@ -487,24 +488,21 @@ function setSyncStatus(state, text) {
 async function fetchExpenses() {
   try {
     setSyncStatus('loading', 'Učitavanje...');
-    // Use Google Sheets JSON API - no CORS issues
-    const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=List1`;
-    const res = await fetch(url, { cache: 'no-store' });
-    const text = await res.text();
-    // Google wraps response in /*O_o*/google.visualization.Query.setResponse(...)
-    const json = JSON.parse(text.substring(47, text.length - 2));
-    const rows = json.table.rows || [];
-    expenses = rows.map(r => {
-      const c = r.c;
-      return {
-        id: String(c[0] ? c[0].v : ''),
-        desc: c[1] ? String(c[1].v || '') : '',
-        amount: c[2] ? (parseFloat(c[2].v) || 0) : 0,
-        category: c[3] ? String(c[3].v || '') : '',
-        who: c[4] ? String(c[4].v || '') : '',
-        date: c[5] ? String(c[5].v || '') : ''
-      };
-    }).filter(r => r.id);
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/${encodeURIComponent(TABLE)}?select=*&order=created_at.asc`, {
+      headers: {
+        'apikey': SUPABASE_KEY,
+        'Authorization': 'Bearer ' + SUPABASE_KEY
+      }
+    });
+    const data = await res.json();
+    expenses = data.map(r => ({
+      id: String(r.id),
+      desc: r.OPIS || '',
+      amount: parseFloat(r.IZNOS) || 0,
+      category: r.KATEGORIJA || '',
+      who: r.TKO || '',
+      date: r.DATUM || ''
+    }));
     const now = new Date();
     setSyncStatus('ok', 'Sinkronizirano ' + now.toLocaleTimeString('hr-HR', {hour:'2-digit',minute:'2-digit'}));
     render();
@@ -515,32 +513,34 @@ async function fetchExpenses() {
 }
 
 async function pushExpense(expense) {
-  await fetch(SCRIPT_URL, {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/${encodeURIComponent(TABLE)}`, {
     method: 'POST',
-    mode: 'no-cors',
-    headers: { 'Content-Type': 'text/plain' },
+    headers: {
+      'apikey': SUPABASE_KEY,
+      'Authorization': 'Bearer ' + SUPABASE_KEY,
+      'Content-Type': 'application/json',
+      'Prefer': 'return=minimal'
+    },
     body: JSON.stringify({
-      action: 'add',
-      id: expense.id,
-      opis: expense.desc,
-      iznos: expense.amount,
-      kategorija: expense.category,
-      tko: expense.who,
-      datum: expense.date
+      OPIS: expense.desc,
+      IZNOS: expense.amount,
+      KATEGORIJA: expense.category,
+      TKO: expense.who,
+      DATUM: expense.date
     })
   });
-  // no-cors means we can't read response, but data is sent
-  await new Promise(r => setTimeout(r, 1500));
+  if (!res.ok) throw new Error('Insert failed');
 }
 
 async function pushDelete(id) {
-  await fetch(SCRIPT_URL, {
-    method: 'POST',
-    mode: 'no-cors',
-    headers: { 'Content-Type': 'text/plain' },
-    body: JSON.stringify({ action: 'delete', id })
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/${encodeURIComponent(TABLE)}?id=eq.${id}`, {
+    method: 'DELETE',
+    headers: {
+      'apikey': SUPABASE_KEY,
+      'Authorization': 'Bearer ' + SUPABASE_KEY
+    }
   });
-  await new Promise(r => setTimeout(r, 1500));
+  if (!res.ok) throw new Error('Delete failed');
 }
 
 // ── RENDER ────────────────────────────────────────────
