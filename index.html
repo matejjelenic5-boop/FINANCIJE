@@ -443,6 +443,7 @@
 
 <script>
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbygzn4GanGvaeyu_mQHOOTOqJgrvDnEJ2ZqX0qBz9SVZlDRVgkpWiVDbZddSD9H_Jx7/exec';
+const SHEET_ID = '1_HM6gqSf3EoTCkLbMUgl5dvIT13oUYSHwjcaziDuSd8';
 
 const CATEGORIES = [
   { id: 'hrana',     name: 'Hrana',      icon: '🛒', color: '#4ecca3' },
@@ -486,20 +487,29 @@ function setSyncStatus(state, text) {
 async function fetchExpenses() {
   try {
     setSyncStatus('loading', 'Učitavanje...');
-    const res = await fetch(SCRIPT_URL, { cache: 'no-store' });
-    const data = await res.json();
-    expenses = data.map(r => ({
-      id: String(r.id),
-      desc: r.opis,
-      amount: parseFloat(r.iznos) || 0,
-      category: r.kategorija,
-      who: r.tko,
-      date: r.datum
-    }));
+    // Use Google Sheets JSON API - no CORS issues
+    const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=List1`;
+    const res = await fetch(url, { cache: 'no-store' });
+    const text = await res.text();
+    // Google wraps response in /*O_o*/google.visualization.Query.setResponse(...)
+    const json = JSON.parse(text.substring(47, text.length - 2));
+    const rows = json.table.rows || [];
+    expenses = rows.map(r => {
+      const c = r.c;
+      return {
+        id: String(c[0] ? c[0].v : ''),
+        desc: c[1] ? String(c[1].v || '') : '',
+        amount: c[2] ? (parseFloat(c[2].v) || 0) : 0,
+        category: c[3] ? String(c[3].v || '') : '',
+        who: c[4] ? String(c[4].v || '') : '',
+        date: c[5] ? String(c[5].v || '') : ''
+      };
+    }).filter(r => r.id);
     const now = new Date();
     setSyncStatus('ok', 'Sinkronizirano ' + now.toLocaleTimeString('hr-HR', {hour:'2-digit',minute:'2-digit'}));
     render();
   } catch(e) {
+    console.error(e);
     setSyncStatus('err', 'Greška — provjeri internet');
   }
 }
