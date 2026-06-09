@@ -515,8 +515,10 @@ async function fetchExpenses() {
 }
 
 async function pushExpense(expense) {
-  const res = await fetch(SCRIPT_URL, {
+  await fetch(SCRIPT_URL, {
     method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain' },
     body: JSON.stringify({
       action: 'add',
       id: expense.id,
@@ -527,15 +529,18 @@ async function pushExpense(expense) {
       datum: expense.date
     })
   });
-  return res.json();
+  // no-cors means we can't read response, but data is sent
+  await new Promise(r => setTimeout(r, 1500));
 }
 
 async function pushDelete(id) {
-  const res = await fetch(SCRIPT_URL, {
+  await fetch(SCRIPT_URL, {
     method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain' },
     body: JSON.stringify({ action: 'delete', id })
   });
-  return res.json();
+  await new Promise(r => setTimeout(r, 1500));
 }
 
 // ── RENDER ────────────────────────────────────────────
