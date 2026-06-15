@@ -360,7 +360,7 @@
       <div class="month-label" id="headerMonth"></div>
     </div>
     <div class="header-total">
-      <div class="total-label">Saldo</div>
+      <div class="total-label" id="totalLabel">Troškovi</div>
       <div class="total-amount" id="totalAmount">0 <span>EUR</span></div>
     </div>
   </div>
@@ -659,8 +659,22 @@ function render() {
   const totalInc = monthInc.reduce((s, e) => s + e.amount, 0);
   const saldo = totalInc - totalExp;
   const saldoEl = document.getElementById('totalAmount');
-  saldoEl.innerHTML = `${formatAmt(saldo)} <span>EUR</span>`;
-  saldoEl.style.color = saldo >= 0 ? '#4ecca3' : '#e94560';
+  const labelEl = document.getElementById('totalLabel');
+
+  if (currentView === 'Prihodi') {
+    saldoEl.innerHTML = `${formatAmt(totalInc)} <span>EUR</span>`;
+    saldoEl.style.color = '#4ecca3';
+    labelEl.textContent = 'Prihodi';
+  } else if (currentView === 'Statistike') {
+    saldoEl.innerHTML = `${formatAmt(saldo)} <span>EUR</span>`;
+    saldoEl.style.color = saldo >= 0 ? '#4ecca3' : '#e94560';
+    labelEl.textContent = 'Saldo';
+  } else {
+    saldoEl.innerHTML = `${formatAmt(totalExp)} <span>EUR</span>`;
+    saldoEl.style.color = '#e94560';
+    labelEl.textContent = 'Troškovi';
+  }
+
   renderCatPills(monthExp);
   if (currentView === 'Transakcije') renderList(monthExp);
   else if (currentView === 'Prihodi') renderIncomeList(monthInc);
