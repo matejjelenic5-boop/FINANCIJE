@@ -347,6 +347,69 @@
   }
   .toast.show { opacity: 1; }
 
+  /* ANALIZA */
+  .an-wrap { padding: 0 12px; }
+  .an-note { font-size: 11px; color: var(--muted); padding: 8px 4px 12px; line-height: 1.5; }
+  .an-kpi { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+  .an-kpi-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px; }
+  .an-kpi-l { font-size: 9px; font-weight: 700; color: var(--muted); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 6px; }
+  .an-kpi-v { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; line-height: 1; }
+  .an-kpi-s { font-size: 10px; color: var(--muted); margin-top: 4px; }
+  .an-sec { font-size: 10px; font-weight: 700; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin: 20px 4px 10px; display: flex; align-items: center; gap: 8px; }
+  .an-sec::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .an-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 4px 14px; margin-bottom: 10px; }
+  /* kategorija akordeon */
+  .an-cat { border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .an-cat:last-child { border-bottom: none; }
+  .an-cat-head { display: flex; align-items: center; gap: 10px; padding: 12px 0; cursor: pointer; }
+  .an-cat-ico { font-size: 18px; width: 26px; text-align: center; flex-shrink: 0; }
+  .an-cat-name { font-size: 14px; font-weight: 600; flex: 1; min-width: 0; }
+  .an-cat-bar { height: 4px; background: rgba(255,255,255,0.07); border-radius: 2px; overflow: hidden; margin-top: 5px; }
+  .an-cat-fill { height: 100%; border-radius: 2px; }
+  .an-cat-amt { font-size: 14px; font-weight: 800; white-space: nowrap; }
+  .an-cat-pct { font-size: 10px; color: var(--muted); text-align: right; margin-top: 2px; }
+  .an-cat-arrow { font-size: 15px; color: var(--muted); width: 14px; text-align: center; flex-shrink: 0; transition: transform 0.2s; }
+  .an-cat.open .an-cat-arrow { transform: rotate(90deg); }
+  .an-cat-body { display: none; padding: 0 0 12px 36px; }
+  .an-cat.open .an-cat-body { display: block; }
+  .an-mrow { display: flex; align-items: center; gap: 8px; padding: 6px 0; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.03); }
+  .an-mrow:last-child { border-bottom: none; }
+  .an-mrow-l { font-size: 12px; color: var(--muted); width: 52px; flex-shrink: 0; }
+  .an-mrow-bar { flex: 1; height: 5px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden; }
+  .an-mrow-fill { height: 100%; border-radius: 3px; }
+  .an-mrow-a { font-size: 12px; font-weight: 700; width: 78px; text-align: right; white-space: nowrap; }
+  .an-mrow.hot .an-mrow-a { color: #ff8fa0; }
+  /* drill */
+  .an-drill { background: rgba(69,170,242,0.07); border: 1px solid rgba(69,170,242,0.3); border-radius: 12px; padding: 12px; margin: 8px 0 10px; }
+  .an-drill-h { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .an-drill-t { font-size: 12px; font-weight: 700; }
+  .an-drill-x { background: rgba(255,255,255,0.08); border: 1px solid var(--border); color: var(--text); border-radius: 7px; padding: 3px 9px; font-size: 11px; cursor: pointer; font-family: var(--font); flex-shrink: 0; }
+  .an-tx { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .an-tx:last-child { border-bottom: none; }
+  .an-tx-d { font-size: 12px; font-weight: 600; word-break: break-word; }
+  .an-tx-m { font-size: 10px; color: var(--muted); margin-top: 1px; }
+  .an-tx-a { font-size: 12px; font-weight: 800; color: var(--accent); white-space: nowrap; }
+  /* mjesečni bar */
+  .an-brow { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; }
+  .an-blbl { font-size: 11px; color: var(--muted); width: 50px; flex-shrink: 0; text-align: right; }
+  .an-btrack { flex: 1; height: 22px; background: rgba(255,255,255,0.04); border-radius: 5px; overflow: hidden; }
+  .an-bfill { height: 100%; border-radius: 5px; display: flex; align-items: center; padding-left: 8px; font-size: 10px; font-weight: 700; color: #fff; min-width: 62px; }
+  /* saldo */
+  .an-srow { display: flex; align-items: center; gap: 6px; padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+  .an-srow:last-child { border-bottom: none; }
+  .an-smj { font-size: 11px; font-weight: 600; width: 48px; flex-shrink: 0; }
+  .an-sp { font-size: 11px; color: var(--success); flex: 1; text-align: right; }
+  .an-st { font-size: 11px; color: var(--accent); flex: 1; text-align: right; }
+  .an-ss { font-size: 11px; font-weight: 800; width: 72px; text-align: right; }
+  .an-seg { display: flex; align-items: flex-start; gap: 10px; padding: 11px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .an-seg:last-child { border-bottom: none; }
+  .an-seg-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+  .an-seg-i { flex: 1; min-width: 0; }
+  .an-seg-n { font-size: 13px; font-weight: 700; }
+  .an-seg-d { font-size: 10px; color: var(--muted); margin-top: 2px; line-height: 1.4; }
+  .an-seg-a { font-size: 15px; font-weight: 800; white-space: nowrap; text-align: right; }
+  .an-seg-p { font-size: 10px; color: var(--muted); margin-top: 2px; text-align: right; }
+
   .view { display: none; }
   .view.active { display: block; }
 </style>
@@ -390,6 +453,10 @@
   <div class="stats-view" id="statsContent"></div>
 </div>
 
+<div id="viewAnaliza" class="view">
+  <div class="an-wrap" id="analizaContent"></div>
+</div>
+
 <div style="position:fixed;bottom:90px;right:20px;z-index:100;display:flex;flex-direction:column;align-items:flex-end;gap:10px" id="fabContainer">
   <div id="fabMenu" style="display:none;flex-direction:column;gap:8px;align-items:flex-end">
     <button onclick="openIncomeModal()" style="background:#4ecca3;border:none;border-radius:24px;padding:10px 18px;color:#0a1628;font-weight:700;font-size:14px;cursor:pointer;white-space:nowrap">+ Prihod</button>
@@ -410,6 +477,10 @@
   <button class="nav-item" id="navStatistike" onclick="switchView('Statistike')">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 17v-4M12 17v-7M16 17v-2"/></svg>
     Statistike
+  </button>
+  <button class="nav-item" id="navAnaliza" onclick="switchView('Analiza')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg>
+    Analiza
   </button>
 </nav>
 
@@ -670,15 +741,23 @@ function render() {
     saldoEl.innerHTML = `${formatAmt(saldo)} <span>EUR</span>`;
     saldoEl.style.color = saldo >= 0 ? '#4ecca3' : '#e94560';
     labelEl.textContent = 'Saldo';
+  } else if (currentView === 'Analiza') {
+    const allExp = expenses.reduce((s,e)=>s+e.amount,0);
+    saldoEl.innerHTML = `${formatAmt(allExp)} <span>EUR</span>`;
+    saldoEl.style.color = '#e94560';
+    labelEl.textContent = 'Sve ukupno';
   } else {
     saldoEl.innerHTML = `${formatAmt(totalExp)} <span>EUR</span>`;
     saldoEl.style.color = '#e94560';
     labelEl.textContent = 'Troškovi';
   }
 
+  document.getElementById('catPills').style.display = currentView === 'Analiza' ? 'none' : 'flex';
+  document.querySelector('.month-nav').style.display = currentView === 'Analiza' ? 'none' : 'flex';
   renderCatPills(monthExp);
   if (currentView === 'Transakcije') renderList(monthExp);
   else if (currentView === 'Prihodi') renderIncomeList(monthInc);
+  else if (currentView === 'Analiza') renderAnaliza();
   else renderStats(monthExp);
 }
 
@@ -928,9 +1007,11 @@ function switchView(view) {
   document.getElementById('viewTransakcije').classList.toggle('active', view==='Transakcije');
   document.getElementById('viewPrihodi').classList.toggle('active', view==='Prihodi');
   document.getElementById('viewStatistike').classList.toggle('active', view==='Statistike');
+  document.getElementById('viewAnaliza').classList.toggle('active', view==='Analiza');
   document.getElementById('navTransakcije').classList.toggle('active', view==='Transakcije');
   document.getElementById('navPrihodi').classList.toggle('active', view==='Prihodi');
   document.getElementById('navStatistike').classList.toggle('active', view==='Statistike');
+  document.getElementById('navAnaliza').classList.toggle('active', view==='Analiza');
   render();
 }
 
@@ -1134,6 +1215,238 @@ function toggleFab() {
   menu.style.display = isOpen ? 'none' : 'flex';
   fab.textContent = isOpen ? '+' : '✕';
 }
+
+
+// ── ANALIZA ───────────────────────────────────────────
+const VUK_CATS = ['vuk354mat','vuk354maj','vuk354pap'];
+const FIN_RE = /(zatvorio male kredite|vratio filipu|filipu vratio)/i;
+let anOpenCat = null;
+let anDrill = null; // {cat, monthKey}
+
+function monthKey(dateStr) { return (dateStr || '').slice(0,7); }
+function monthLabel(key) {
+  const [y,m] = key.split('-');
+  return MONTHS[parseInt(m,10)-1].slice(0,3) + " " + y.slice(2);
+}
+function allMonthKeys() {
+  const set = new Set();
+  expenses.forEach(e => { if (e.date) set.add(monthKey(e.date)); });
+  incomes.forEach(e => { if (e.date) set.add(monthKey(e.date)); });
+  return [...set].sort();
+}
+function isFinOp(e) { return FIN_RE.test(e.desc || ''); }
+function isVuk(e) { return VUK_CATS.includes(e.category); }
+function isPozajmica(e) { return /(nenamjenski kredit|novac od filipa)/i.test(e.desc || ''); }
+
+function renderAnaliza() {
+  const el = document.getElementById('analizaContent');
+  if (!expenses.length) {
+    el.innerHTML = `<div class="empty-state"><div class="empty-icon">📊</div><div class="empty-text">Nema podataka za analizu.</div></div>`;
+    return;
+  }
+
+  const keys = allMonthKeys();
+  const fullMonths = Math.max(keys.length - 1, 1);
+
+  const totalAll = expenses.reduce((s,e)=>s+e.amount,0);
+  const vukList = expenses.filter(isVuk);
+  const vukTotal = vukList.reduce((s,e)=>s+e.amount,0);
+  const finList = expenses.filter(e => isFinOp(e) && !isVuk(e));
+  const finTotal = finList.reduce((s,e)=>s+e.amount,0);
+  const lifeList = expenses.filter(e => !isVuk(e) && !isFinOp(e));
+  const lifeTotal = lifeList.reduce((s,e)=>s+e.amount,0);
+  const creditList = lifeList.filter(e => e.category === 'kredit');
+  const creditTotal = creditList.reduce((s,e)=>s+e.amount,0);
+
+  const realInc = incomes.filter(e => !isPozajmica(e));
+  const realIncTotal = realInc.reduce((s,e)=>s+e.amount,0);
+  const loanTotal = incomes.filter(isPozajmica).reduce((s,e)=>s+e.amount,0);
+
+  const lifeAvg = lifeTotal / fullMonths;
+  const incAvg = realIncTotal / fullMonths;
+
+  let h = '';
+
+  // KPI
+  h += `<div class="an-kpi">
+    <div class="an-kpi-card"><div class="an-kpi-l">Sve ukupno</div><div class="an-kpi-v" style="color:#e94560">${formatAmt(totalAll)} €</div><div class="an-kpi-s">${expenses.length} transakcija</div></div>
+    <div class="an-kpi-card"><div class="an-kpi-l">Vukovarska</div><div class="an-kpi-v" style="color:#00d68f">${formatAmt(vukTotal)} €</div><div class="an-kpi-s">${totalAll?Math.round(vukTotal/totalAll*100):0}% svih troškova</div></div>
+    <div class="an-kpi-card"><div class="an-kpi-l">Životni / mj</div><div class="an-kpi-v" style="color:#f7b731">${formatAmt(lifeAvg)} €</div><div class="an-kpi-s">prosjek ${fullMonths} mj</div></div>
+    <div class="an-kpi-card"><div class="an-kpi-l">Prihodi / mj</div><div class="an-kpi-v" style="color:#4ecca3">${formatAmt(incAvg)} €</div><div class="an-kpi-s">bez pozajmica</div></div>
+  </div>`;
+
+  // DEKOMPOZICIJA
+  h += `<div class="an-sec">Gdje je otišlo</div><div class="an-card">`;
+  const segs = [
+    {n:'🏠 Vukovarska 354', d:'Investicija u nekretninu — materijal, majstori, papiri', a:vukTotal, c:'#00d68f'},
+    {n:'🔄 Financijske operacije', d:'Zatvaranje kredita, povrat pozajmica — jednokratno', a:finTotal, c:'#45aaf2'},
+    {n:'🏦 Redovni krediti', d:`Rate ~${formatAmt(creditTotal/fullMonths)} €/mj`, a:creditTotal, c:'#e94560'},
+    {n:'🛒 Životni troškovi', d:'Sve ostalo — hrana, djeca, režije, luksuz...', a:lifeTotal-creditTotal, c:'#f7b731'}
+  ];
+  segs.forEach(s => {
+    const p = totalAll ? s.a/totalAll*100 : 0;
+    h += `<div class="an-seg"><div class="an-seg-dot" style="background:${s.c}"></div>
+      <div class="an-seg-i"><div class="an-seg-n">${s.n}</div><div class="an-seg-d">${s.d}</div>
+      <div class="an-cat-bar" style="margin-top:6px"><div class="an-cat-fill" style="width:${p}%;background:${s.c}"></div></div></div>
+      <div><div class="an-seg-a" style="color:${s.c}">${formatAmt(s.a)} €</div><div class="an-seg-p">${p.toFixed(1)}%</div></div></div>`;
+  });
+  h += `</div>`;
+
+  // MATRICA — kategorije akordeon
+  const catTotals = {};
+  expenses.forEach(e => {
+    if (!catTotals[e.category]) catTotals[e.category] = { total:0, months:{} };
+    catTotals[e.category].total += e.amount;
+    const k = monthKey(e.date);
+    catTotals[e.category].months[k] = (catTotals[e.category].months[k]||0) + e.amount;
+  });
+  const sortedCats = Object.entries(catTotals).sort((a,b)=>b[1].total-a[1].total);
+  const maxCat = sortedCats.length ? sortedCats[0][1].total : 1;
+
+  h += `<div class="an-sec">Kategorije po mjesecima</div>`;
+  h += `<div class="an-note">Tapni kategoriju da vidiš mjesece. Tapni mjesec da vidiš pojedinačne stavke.</div>`;
+  h += `<div class="an-card">`;
+  sortedCats.forEach(([catId, data]) => {
+    const cat = catById(catId);
+    const open = anOpenCat === catId;
+    const pct = totalAll ? data.total/totalAll*100 : 0;
+    h += `<div class="an-cat ${open?'open':''}">
+      <div class="an-cat-head" onclick="anToggleCat('${catId}')">
+        <div class="an-cat-ico">${cat.icon}</div>
+        <div class="an-cat-name">${cat.name}
+          <div class="an-cat-bar"><div class="an-cat-fill" style="width:${data.total/maxCat*100}%;background:${cat.color}"></div></div>
+        </div>
+        <div><div class="an-cat-amt" style="color:${cat.color}">${formatAmt(data.total)} €</div><div class="an-cat-pct">${pct.toFixed(1)}%</div></div>
+        <div class="an-cat-arrow">›</div>
+      </div>
+      <div class="an-cat-body">`;
+    if (open) {
+      const monthVals = keys.map(k => data.months[k] || 0);
+      const maxM = Math.max(...monthVals, 1);
+      keys.forEach((k, i) => {
+        const v = monthVals[i];
+        if (v <= 0) return;
+        const isDrill = anDrill && anDrill.cat === catId && anDrill.month === k;
+        h += `<div class="an-mrow ${v>2000?'hot':''}" onclick="anDrillTo('${catId}','${k}')">
+          <div class="an-mrow-l">${monthLabel(k)}</div>
+          <div class="an-mrow-bar"><div class="an-mrow-fill" style="width:${v/maxM*100}%;background:${cat.color}"></div></div>
+          <div class="an-mrow-a">${formatAmt(v)} €</div>
+        </div>`;
+        if (isDrill) h += anDrillHtml(catId, k);
+      });
+    }
+    h += `</div></div>`;
+  });
+  h += `</div>`;
+
+  // ŽIVOTNI PO MJESECU
+  const lifeByMonth = {}, incByMonth = {}, vukByMonth = {};
+  lifeList.forEach(e => { const k=monthKey(e.date); lifeByMonth[k]=(lifeByMonth[k]||0)+e.amount; });
+  realInc.forEach(e => { const k=monthKey(e.date); incByMonth[k]=(incByMonth[k]||0)+e.amount; });
+  vukList.forEach(e => { const k=monthKey(e.date); vukByMonth[k]=(vukByMonth[k]||0)+e.amount; });
+  const maxLife = Math.max(...keys.map(k=>lifeByMonth[k]||0), 1);
+
+  h += `<div class="an-sec">Životni troškovi po mjesecu</div><div class="an-card" style="padding:14px">`;
+  keys.forEach(k => {
+    const v = lifeByMonth[k]||0;
+    const w = Math.max(v/maxLife*100, 6);
+    const hot = v >= maxLife*0.95;
+    h += `<div class="an-brow"><div class="an-blbl">${monthLabel(k)}</div>
+      <div class="an-btrack"><div class="an-bfill" style="width:${w}%;background:${hot?'linear-gradient(90deg,#e94560,#c0392b)':'linear-gradient(90deg,#45aaf2,#2980b9)'}">${formatAmt(v)} €</div></div></div>`;
+  });
+  h += `<div style="font-size:10px;color:var(--muted);margin-top:8px">Bez Vukovarske i jednokratnih financijskih operacija</div></div>`;
+
+  // VUKOVARSKA
+  const vm = {};
+  VUK_CATS.forEach(vc => { vm[vc] = expenses.filter(e=>e.category===vc).reduce((s,e)=>s+e.amount,0); });
+  const maxVuk = Math.max(...keys.map(k=>vukByMonth[k]||0), 1);
+  h += `<div class="an-sec">Vukovarska 354</div><div class="an-card" style="padding:16px 14px">
+    <div style="font-size:32px;font-weight:900;color:#00d68f;letter-spacing:-1px">${formatAmt(vukTotal)} €</div>
+    <div style="font-size:11px;color:var(--muted);margin-bottom:14px">${totalAll?Math.round(vukTotal/totalAll*100):0}% svih troškova</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px">`;
+  [['vuk354mat','🧱','Materijal'],['vuk354maj','👷','Majstori'],['vuk354pap','📋','Papiri']].forEach(([id,ic,nm]) => {
+    const a = vm[id]||0;
+    h += `<div style="background:rgba(0,214,143,0.06);border:1px solid rgba(0,214,143,0.2);border-radius:11px;padding:12px 6px;text-align:center">
+      <div style="font-size:18px">${ic}</div>
+      <div style="font-size:9px;color:var(--muted);font-weight:700;letter-spacing:0.5px;text-transform:uppercase;margin:3px 0">${nm}</div>
+      <div style="font-size:14px;font-weight:800;color:#00d68f">${formatAmt(a)} €</div>
+      <div style="font-size:9px;color:var(--muted)">${vukTotal?Math.round(a/vukTotal*100):0}%</div></div>`;
+  });
+  h += `</div>`;
+  keys.forEach(k => {
+    const v = vukByMonth[k]||0;
+    if (v<=0) return;
+    h += `<div class="an-brow"><div class="an-blbl">${monthLabel(k)}</div>
+      <div class="an-btrack"><div class="an-bfill" style="width:${Math.max(v/maxVuk*100,6)}%;background:linear-gradient(90deg,#00d68f,#00a86b)">${formatAmt(v)} €</div></div></div>`;
+  });
+  h += `</div>`;
+
+  // PRIHODI
+  const incCats = {};
+  realInc.forEach(e => { incCats[e.category] = (incCats[e.category]||0) + e.amount; });
+  h += `<div class="an-sec">Prihodi</div><div class="an-card" style="padding:14px">`;
+  Object.entries(incCats).sort((a,b)=>b[1]-a[1]).forEach(([cid,amt]) => {
+    const ic = incCatById(cid);
+    h += `<div class="an-srow"><div style="flex:1;font-size:13px;font-weight:600">${ic.icon} ${ic.name}</div>
+      <div style="font-size:14px;font-weight:800;color:#4ecca3">${formatAmt(amt)} €</div></div>`;
+  });
+  h += `<div class="an-srow" style="border-top:1px solid var(--border);margin-top:6px;padding-top:10px">
+      <div style="flex:1;font-size:12px;color:var(--muted);font-weight:700">REALNI PRIHODI</div>
+      <div style="font-size:16px;font-weight:900;color:#4ecca3">${formatAmt(realIncTotal)} €</div></div>`;
+  if (loanTotal > 0) {
+    h += `<div class="an-srow"><div style="flex:1;font-size:12px;color:var(--muted);font-weight:700">+ Pozajmice / krediti</div>
+      <div style="font-size:14px;font-weight:800;color:#45aaf2">${formatAmt(loanTotal)} €</div></div>`;
+  }
+  h += `</div>`;
+
+  // SALDO PO MJESECU
+  h += `<div class="an-sec">Saldo po mjesecu</div><div class="an-card" style="padding:14px">
+    <div style="display:flex;gap:10px;font-size:10px;color:var(--muted);margin-bottom:8px"><span>🟢 Prihodi</span><span>🔴 Životni troškovi</span></div>`;
+  keys.forEach(k => {
+    const t = lifeByMonth[k]||0, p = incByMonth[k]||0, s = p-t;
+    h += `<div class="an-srow"><div class="an-smj">${monthLabel(k)}</div>
+      <div class="an-sp">${formatAmt(p)}</div><div class="an-st">${formatAmt(t)}</div>
+      <div class="an-ss" style="color:${s>=0?'#4ecca3':'#e94560'}">${s>=0?'+':'−'}${formatAmt(Math.abs(s))}</div></div>`;
+  });
+  const totSaldo = realIncTotal - lifeTotal;
+  h += `<div class="an-srow" style="border-top:1px solid var(--border);margin-top:6px;padding-top:10px">
+    <div style="flex:1;font-size:12px;color:var(--muted);font-weight:700">UKUPNO</div>
+    <div style="font-size:16px;font-weight:900;color:${totSaldo>=0?'#4ecca3':'#e94560'}">${totSaldo>=0?'+':'−'}${formatAmt(Math.abs(totSaldo))} €</div></div>`;
+  h += `<div style="font-size:10px;color:var(--muted);margin-top:8px">Realni prihodi minus životni troškovi. Vukovarska se financira kreditima.</div></div>`;
+
+  h += `<div style="height:20px"></div>`;
+  el.innerHTML = h;
+}
+
+function anDrillHtml(catId, k) {
+  const cat = catById(catId);
+  const rows = expenses.filter(e => e.category === catId && monthKey(e.date) === k)
+    .sort((a,b) => new Date(b.date) - new Date(a.date));
+  const tot = rows.reduce((s,e)=>s+e.amount,0);
+  let h = `<div class="an-drill"><div class="an-drill-h">
+    <div class="an-drill-t">${monthLabel(k)} · ${formatAmt(tot)} € <span style="color:var(--muted);font-weight:500">(${rows.length})</span></div>
+    <button class="an-drill-x" onclick="event.stopPropagation();anCloseDrill()">✕</button></div>`;
+  rows.forEach(e => {
+    const d = new Date(e.date + 'T00:00:00');
+    h += `<div class="an-tx"><div><div class="an-tx-d">${e.desc || cat.name}</div>
+      <div class="an-tx-m">${d.toLocaleDateString('hr-HR',{day:'numeric',month:'short'})} · ${e.who}</div></div>
+      <div class="an-tx-a">${formatAmt(e.amount)} €</div></div>`;
+  });
+  return h + `</div>`;
+}
+
+function anToggleCat(catId) {
+  anOpenCat = (anOpenCat === catId) ? null : catId;
+  anDrill = null;
+  renderAnaliza();
+}
+function anDrillTo(catId, k) {
+  event.stopPropagation();
+  if (anDrill && anDrill.cat === catId && anDrill.month === k) anDrill = null;
+  else anDrill = { cat: catId, month: k };
+  renderAnaliza();
+}
+function anCloseDrill() { anDrill = null; renderAnaliza(); }
 
 // ── INIT ──────────────────────────────────────────────
 buildCatGrid();
