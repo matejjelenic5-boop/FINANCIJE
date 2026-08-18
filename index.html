@@ -5,21 +5,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#1a1a2e">
-<title>Troškovi</title>
+<meta name="theme-color" content="#0b0e14">
+<title>Troškovi - Modern</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #e7e9f2;
-    --surface: #ffffff;
-    --card: #ffffff;
-    --accent: #e94560;
-    --accent2: #0f3460;
-    --text: #14142b;
-    --muted: #6b7086;
-    --border: #d6d9e6;
-    --success: #4ecca3;
-    --radius: 16px;
-    --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    --bg: #0b0e14;
+    --surface: #141824;
+    --card: rgba(26, 32, 48, 0.75);
+    --border: rgba(255, 255, 255, 0.08);
+    --accent: #ff4d6d;
+    --accent-glow: rgba(255, 77, 109, 0.25);
+    --income: #00e676;
+    --income-glow: rgba(0, 230, 118, 0.2);
+    --text: #f3f4f8;
+    --muted: #8b93a7;
+    --radius: 20px;
+    --font: 'Plus Jakarta Sans', system-ui, sans-serif;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   body {
@@ -29,384 +32,105 @@
     min-height: 100vh;
     max-width: 480px;
     margin: 0 auto;
-    padding-bottom: 80px;
+    padding-bottom: 90px;
   }
 
-  /* HEADER */
+  /* HEADER & HERO CARD */
   .header {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    border-radius: 0 0 22px 22px;
-    padding: 48px 20px 24px;
-    position: relative;
-    overflow: hidden;
+    padding: 32px 20px 16px;
+    background: radial-gradient(circle at top right, rgba(0, 230, 118, 0.08), transparent 60%);
   }
-  .header-top { display: flex; justify-content: space-between; align-items: flex-start; }
-  .app-title { font-size: 13px; font-weight: 600; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; }
-  .month-label { font-size: 22px; font-weight: 700; color: var(--text); margin-top: 4px; }
-  .header-total { text-align: right; }
-  .total-label { font-size: 11px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
-  .total-amount { font-size: 28px; font-weight: 800; color: var(--accent); line-height: 1; margin-top: 2px; }
-  .total-amount span { font-size: 14px; font-weight: 500; color: var(--muted); }
-
-  .month-nav { display: flex; align-items: center; gap: 12px; margin-top: 18px; }
-  .month-btn {
-    background: var(--bg);
+  .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+  .app-title { font-size: 11px; font-weight: 700; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; }
+  .sync-badge {
+    display: flex; align-items: center; gap: 6px;
+    background: rgba(255, 255, 255, 0.05);
     border: 1px solid var(--border);
-    color: var(--text);
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    font-size: 16px;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: background 0.15s;
+    padding: 4px 10px; border-radius: 20px; font-size: 10px; color: var(--muted);
   }
-  .month-btn:active { background: var(--border); }
-  .current-month { font-size: 16px; font-weight: 600; flex: 1; }
-
-  /* SYNC STATUS */
-  .sync-bar {
-    display: flex; align-items: center; justify-content: center;
-    gap: 6px; padding: 6px 20px;
-    font-size: 11px; color: var(--muted);
-    border-bottom: 1px solid var(--border);
-    min-height: 28px;
-  }
-  .sync-dot {
-    width: 7px; height: 7px; border-radius: 50%;
-    background: var(--muted); flex-shrink: 0;
-  }
-  .sync-dot.ok { background: var(--success); }
-  .sync-dot.err { background: var(--accent); }
+  .sync-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--muted); }
+  .sync-dot.ok { background: var(--income); box-shadow: 0 0 8px var(--income); }
   .sync-dot.loading { background: #f7b731; animation: pulse 1s infinite; }
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
-  /* CATEGORY PILLS SUMMARY */
-  .summary-scroll {
-    overflow-x: auto;
-    padding: 16px 20px;
-    display: flex;
-    gap: 10px;
-    scrollbar-width: none;
+  .hero-card {
+    background: linear-gradient(135deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.02) 100%);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+    position: relative;
+    overflow: hidden;
   }
+  .hero-label { font-size: 11px; font-weight: 600; color: var(--muted); letter-spacing: 1.5px; text-transform: uppercase; }
+  .hero-amount { font-size: 34px; font-weight: 800; color: var(--accent); margin: 6px 0 12px; letter-spacing: -0.5px; }
+  .hero-amount span { font-size: 16px; font-weight: 600; color: var(--muted); }
+
+  .month-nav { display: flex; align-items: center; justify-content: space-between; background: rgba(0,0,0,0.2); padding: 4px; border-radius: 12px; }
+  .month-btn {
+    background: none; border: none; color: var(--text);
+    width: 32px; height: 32px; border-radius: 8px; font-size: 16px; cursor: pointer;
+  }
+  .month-btn:active { background: rgba(255,255,255,0.1); }
+  .current-month { font-size: 13px; font-weight: 700; color: var(--text); }
+
+  /* CATEGORY PILLS */
+  .summary-scroll { display: flex; gap: 8px; padding: 12px 20px; overflow-x: auto; scrollbar-width: none; }
   .summary-scroll::-webkit-scrollbar { display: none; }
   .cat-pill {
     flex-shrink: 0;
-    background: var(--card);
+    background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 24px;
+    border-radius: 16px;
     padding: 8px 14px;
-    cursor: pointer;
-    transition: all 0.15s;
-    text-align: center;
+    display: flex; align-items: center; gap: 8px;
+    cursor: pointer; transition: all 0.2s;
   }
-  .cat-pill.active { border-color: var(--accent); background: rgba(233,69,96,0.12); }
-  .cat-pill-icon { font-size: 18px; display: block; }
-  .cat-pill-name { font-size: 10px; color: var(--muted); letter-spacing: 0.5px; }
-  .cat-pill-amount { font-size: 12px; font-weight: 700; color: var(--text); display: block; margin-top: 2px; }
+  .cat-pill.active { border-color: var(--accent); background: var(--accent-glow); }
+  .cat-pill-amount { font-size: 11px; font-weight: 700; color: var(--text); }
 
-  /* ADD BUTTON FAB */
-  .fab {
-    position: fixed;
-    bottom: 90px;
-    right: 20px;
-    width: 60px; height: 60px;
-    background: var(--accent);
-    border: none;
-    border-radius: 50%;
-    font-size: 28px;
-    color: #fff;
-    cursor: pointer;
-    box-shadow: 0 4px 24px rgba(233,69,96,0.5);
-    z-index: 100;
-    display: flex; align-items: center; justify-content: center;
-    transition: transform 0.15s;
-  }
-  .fab:active { transform: scale(0.92); }
-
-  /* BOTTOM NAV */
-  .bottom-nav {
-    position: fixed;
-    bottom: 0; left: 50%; transform: translateX(-50%);
-    width: 100%; max-width: 480px;
-    background: var(--surface);
-    border-top: 1px solid var(--border);
-    display: flex;
-    z-index: 99;
-  }
-  .nav-item {
-    flex: 1; padding: 12px 0;
-    display: flex; flex-direction: column; align-items: center;
-    gap: 3px; cursor: pointer; background: none; border: none;
-    color: var(--muted); font-size: 10px; font-family: var(--font);
-    letter-spacing: 0.5px; transition: color 0.15s;
-  }
-  .nav-item.active { color: var(--accent); }
-  .nav-item svg { width: 22px; height: 22px; }
-
-  /* MODAL OVERLAY */
-  .modal-overlay {
-    position: fixed; inset: 0;
-    background: rgba(0,0,0,0.7);
-    z-index: 200;
-    display: none;
-    align-items: flex-end;
-  }
-  .modal-overlay.open { display: flex; }
-  .modal {
-    background: var(--surface);
-    border-radius: var(--radius) var(--radius) 0 0;
-    padding: 24px 20px 40px;
-    width: 100%;
-    max-height: 90vh;
-    overflow-y: auto;
-    animation: slideUp 0.25s ease;
-  }
-  @keyframes slideUp {
-    from { transform: translateY(60px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-  }
-  .modal-handle {
-    width: 40px; height: 4px;
-    background: var(--border);
-    border-radius: 2px;
-    margin: 0 auto 20px;
-  }
-  .modal-title { font-size: 20px; font-weight: 700; margin-bottom: 20px; }
-
-  /* FORM */
-  .form-group { margin-bottom: 16px; }
-  .form-label { font-size: 11px; font-weight: 600; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; display: block; }
-  .form-input {
-    width: 100%; padding: 14px 16px;
-    background: var(--card);
-    border: 1.5px solid var(--border);
-    border-radius: 12px;
-    color: var(--text);
-    font-size: 16px;
-    font-family: var(--font);
-    outline: none;
-    transition: border-color 0.15s;
-  }
-  .form-input:focus { border-color: var(--accent); }
-  .form-input::placeholder { color: var(--muted); }
-
-  .amount-row { display: flex; gap: 8px; }
-  .amount-row .form-input { flex: 1; }
-  .currency-badge {
-    background: var(--card);
-    border: 1.5px solid var(--border);
-    border-radius: 12px;
-    padding: 14px 16px;
-    color: var(--muted);
-    font-size: 16px;
-    font-weight: 700;
-    display: flex; align-items: center;
-  }
-
-  /* WHO PAID */
-  .who-row { display: flex; gap: 10px; }
-  .who-btn {
-    flex: 1; padding: 12px;
-    background: var(--card);
-    border: 1.5px solid var(--border);
-    border-radius: 12px;
-    color: var(--muted);
-    font-size: 14px; font-weight: 600;
-    cursor: pointer; font-family: var(--font);
-    transition: all 0.15s;
-    text-align: center;
-  }
-  .who-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(233,69,96,0.1); }
-
-  /* CATEGORY GRID */
-  .cat-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-  }
-  .cat-btn {
-    background: var(--card);
-    border: 1.5px solid var(--border);
-    border-radius: 12px;
-    padding: 12px 6px;
-    cursor: pointer;
-    text-align: center;
-    transition: all 0.15s;
-    font-family: var(--font);
-  }
-  .cat-btn:active { transform: scale(0.95); }
-  .cat-btn.selected { border-color: var(--accent); background: rgba(233,69,96,0.12); }
-  .cat-btn-icon { font-size: 22px; display: block; margin-bottom: 4px; }
-  .cat-btn-name { font-size: 10px; color: var(--muted); font-weight: 600; line-height: 1.2; }
-  .cat-btn.selected .cat-btn-name { color: var(--accent); }
-
-  /* SUBMIT */
-  .submit-btn {
-    width: 100%; padding: 16px;
-    background: var(--accent);
-    border: none; border-radius: 14px;
-    color: #fff; font-size: 16px; font-weight: 700;
-    cursor: pointer; font-family: var(--font);
-    margin-top: 8px;
-    transition: opacity 0.15s, transform 0.1s;
-  }
-  .submit-btn:active { transform: scale(0.98); opacity: 0.9; }
-  .submit-btn:disabled { opacity: 0.5; }
-
-  /* EXPENSE LIST */
-  .section-header {
-    padding: 8px 20px 4px;
-    font-size: 11px; font-weight: 600;
-    color: var(--muted); letter-spacing: 1.5px;
-    text-transform: uppercase;
-  }
+  /* EXPENSE ITEM */
+  .section-header { padding: 12px 20px 6px; font-size: 10px; font-weight: 700; color: var(--muted); letter-spacing: 1.5px; text-transform: uppercase; }
   .expense-item {
     margin: 0 16px 8px;
-    background: var(--card);
+    background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 14px 16px;
-    display: flex; align-items: center; gap: 14px;
-    cursor: pointer;
-    transition: border-color 0.15s;
-    position: relative;
+    border-radius: 16px;
+    padding: 12px 14px;
+    display: flex; align-items: center; gap: 12px;
+    cursor: pointer; position: relative;
   }
-  .expense-item:active { border-color: var(--accent); }
   .expense-icon {
-    width: 44px; height: 44px;
-    border-radius: 12px;
+    width: 42px; height: 42px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center; font-size: 18px;
+    background: rgba(255,255,255,0.05);
+  }
+  .expense-desc { font-size: 14px; font-weight: 600; color: var(--text); }
+  .expense-meta { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .expense-amount { font-size: 15px; font-weight: 700; text-align: right; }
+  .expense-who { font-size: 10px; color: var(--muted); text-align: right; margin-top: 2px; }
+
+  /* FAB & NAV */
+  .fab {
+    position: fixed; bottom: 85px; right: 20px;
+    width: 56px; height: 56px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), #ff758f);
+    border: none; color: #fff; font-size: 26px; font-weight: 300;
+    box-shadow: 0 8px 24px var(--accent-glow);
+    cursor: pointer; z-index: 100;
     display: flex; align-items: center; justify-content: center;
-    font-size: 20px; flex-shrink: 0;
   }
-  .expense-info { flex: 1; min-width: 0; }
-  .expense-desc { font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .expense-meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
-  .expense-right { text-align: right; }
-  .expense-amount { font-size: 16px; font-weight: 800; color: var(--text); }
-  .expense-who { font-size: 11px; color: var(--muted); margin-top: 2px; }
-  .delete-btn {
-    position: absolute; top: 8px; right: 8px;
-    background: rgba(233,69,96,0.12);
-    border: 1px solid rgba(233,69,96,0.3);
-    border-radius: 8px;
-    color: var(--accent);
-    width: 28px; height: 28px;
-    font-size: 14px; cursor: pointer;
-    display: none; align-items: center; justify-content: center;
+  .bottom-nav {
+    position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 100%; max-width: 480px;
+    background: rgba(20, 24, 36, 0.85); backdrop-filter: blur(16px);
+    border-top: 1px solid var(--border);
+    display: flex; justify-content: space-around; padding: 10px 0 16px; z-index: 99;
   }
-  .expense-item.expanded .delete-btn { display: flex; }
-  .expense-item.expanded { border-color: rgba(233,69,96,0.4); }
-
-  /* STATS VIEW */
-  .stats-view { padding: 0 16px; }
-  .stats-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 16px;
-    margin-bottom: 12px;
-  }
-  .stats-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-  .stats-cat-name { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; }
-  .stats-amount { font-size: 15px; font-weight: 800; }
-  .progress-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
-  .progress-fill { height: 100%; background: var(--accent); border-radius: 3px; transition: width 0.4s ease; }
-
-  .person-split { display: flex; gap: 10px; margin-bottom: 16px; }
-  .split-card {
-    flex: 1; background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 16px; text-align: center;
-  }
-  .split-name { font-size: 12px; color: var(--muted); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
-  .split-amount { font-size: 22px; font-weight: 800; margin-top: 4px; }
-  .split-pct { font-size: 11px; color: var(--muted); margin-top: 2px; }
-
-  .empty-state { text-align: center; padding: 48px 20px; color: var(--muted); }
-  .empty-icon { font-size: 48px; margin-bottom: 12px; }
-  .empty-text { font-size: 15px; line-height: 1.5; }
-
-  /* TOAST */
-  .toast {
-    position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%);
-    background: var(--success); color: #0a1628;
-    padding: 10px 20px; border-radius: 24px;
-    font-size: 14px; font-weight: 700;
-    z-index: 999; opacity: 0;
-    transition: opacity 0.2s;
-    pointer-events: none; white-space: nowrap;
-  }
-  .toast.show { opacity: 1; }
-
-  /* ANALIZA */
-  .an-wrap { padding: 0 12px; }
-  .an-note { font-size: 11px; color: var(--muted); padding: 8px 4px 12px; line-height: 1.5; }
-  .an-kpi { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
-  .an-kpi-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px; }
-  .an-kpi-l { font-size: 9px; font-weight: 700; color: var(--muted); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 6px; }
-  .an-kpi-v { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; line-height: 1; }
-  .an-kpi-s { font-size: 10px; color: var(--muted); margin-top: 4px; }
-  .an-sec { font-size: 10px; font-weight: 700; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin: 20px 4px 10px; display: flex; align-items: center; gap: 8px; }
-  .an-sec::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-  .an-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 4px 14px; margin-bottom: 10px; }
-  /* kategorija akordeon */
-  .an-cat { border-bottom: 1px solid rgba(0,0,0,0.06); }
-  .an-cat:last-child { border-bottom: none; }
-  .an-cat-head { display: flex; align-items: center; gap: 10px; padding: 12px 0; cursor: pointer; }
-  .an-cat-ico { font-size: 18px; width: 26px; text-align: center; flex-shrink: 0; }
-  .an-cat-name { font-size: 14px; font-weight: 600; flex: 1; min-width: 0; }
-  .an-cat-bar { height: 4px; background: rgba(0,0,0,0.08); border-radius: 2px; overflow: hidden; margin-top: 5px; }
-  .an-cat-fill { height: 100%; border-radius: 2px; }
-  .an-cat-amt { font-size: 14px; font-weight: 800; white-space: nowrap; }
-  .an-cat-pct { font-size: 10px; color: var(--muted); text-align: right; margin-top: 2px; }
-  .an-cat-arrow { font-size: 15px; color: var(--muted); width: 14px; text-align: center; flex-shrink: 0; transition: transform 0.2s; }
-  .an-cat.open .an-cat-arrow { transform: rotate(90deg); }
-  .an-cat-body { display: none; padding: 0 0 12px 36px; }
-  .an-cat.open .an-cat-body { display: block; }
-  .an-mrow { display: flex; align-items: center; gap: 8px; padding: 6px 0; cursor: pointer; border-bottom: 1px solid rgba(0,0,0,0.05); }
-  .an-mrow:last-child { border-bottom: none; }
-  .an-mrow-l { font-size: 12px; color: var(--muted); width: 52px; flex-shrink: 0; }
-  .an-mrow-bar { flex: 1; height: 5px; background: rgba(0,0,0,0.07); border-radius: 3px; overflow: hidden; }
-  .an-mrow-fill { height: 100%; border-radius: 3px; }
-  .an-mrow-a { font-size: 12px; font-weight: 700; width: 78px; text-align: right; white-space: nowrap; }
-  .an-mrow.hot .an-mrow-a { color: var(--accent); }
-  /* drill */
-  .an-drill { background: rgba(69,170,242,0.07); border: 1px solid rgba(69,170,242,0.3); border-radius: 12px; padding: 12px; margin: 8px 0 10px; }
-  .an-drill-h { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 8px; }
-  .an-drill-t { font-size: 12px; font-weight: 700; }
-  .an-drill-x { background: var(--bg); border: 1px solid var(--border); color: var(--text); border-radius: 7px; padding: 3px 9px; font-size: 11px; cursor: pointer; font-family: var(--font); flex-shrink: 0; }
-  .an-tx { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 6px 0; border-bottom: 1px solid rgba(0,0,0,0.06); }
-  .an-tx:last-child { border-bottom: none; }
-  .an-tx-d { font-size: 12px; font-weight: 600; word-break: break-word; }
-  .an-tx-m { font-size: 10px; color: var(--muted); margin-top: 1px; }
-  .an-tx-a { font-size: 12px; font-weight: 800; color: var(--accent); white-space: nowrap; }
-  /* mjesečni bar */
-  .an-brow { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; }
-  .an-blbl { font-size: 11px; color: var(--muted); width: 50px; flex-shrink: 0; text-align: right; }
-  .an-btrack { flex: 1; height: 22px; background: rgba(0,0,0,0.05); border-radius: 5px; overflow: hidden; }
-  .an-bfill { height: 100%; border-radius: 5px; display: flex; align-items: center; padding-left: 8px; font-size: 10px; font-weight: 700; color: #fff; min-width: 62px; }
-  /* saldo */
-  .an-srow { display: flex; align-items: center; gap: 6px; padding: 7px 0; border-bottom: 1px solid rgba(0,0,0,0.05); }
-  .an-srow:last-child { border-bottom: none; }
-  .an-smj { font-size: 11px; font-weight: 600; width: 48px; flex-shrink: 0; }
-  .an-sp { font-size: 11px; color: var(--success); flex: 1; text-align: right; }
-  .an-st { font-size: 11px; color: var(--accent); flex: 1; text-align: right; }
-  .an-ss { font-size: 11px; font-weight: 800; width: 72px; text-align: right; }
-  .an-filip { background: rgba(69,170,242,0.07); border: 1px solid rgba(69,170,242,0.3); border-radius: 14px; padding: 16px 14px; margin-bottom: 10px; }
-  .an-frow { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.06); }
-  .an-frow:last-child { border-bottom: none; }
-  .an-fname { font-size: 12px; color: var(--muted); flex: 1; }
-  .an-famt { font-size: 13px; font-weight: 800; white-space: nowrap; }
-  .an-seg { display: flex; align-items: flex-start; gap: 10px; padding: 11px 0; border-bottom: 1px solid rgba(0,0,0,0.06); }
-  .an-seg:last-child { border-bottom: none; }
-  .an-seg-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
-  .an-seg-i { flex: 1; min-width: 0; }
-  .an-seg-n { font-size: 13px; font-weight: 700; }
-  .an-seg-d { font-size: 10px; color: var(--muted); margin-top: 2px; line-height: 1.4; }
-  .an-seg-a { font-size: 15px; font-weight: 800; white-space: nowrap; text-align: right; }
-  .an-seg-p { font-size: 10px; color: var(--muted); margin-top: 2px; text-align: right; }
+  .nav-item { background: none; border: none; color: var(--muted); font-size: 10px; font-weight: 600; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .nav-item.active { color: var(--accent); }
+  .nav-item svg { width: 20px; height: 20px; stroke: currentColor; }
 
   .view { display: none; } .view.active { display: block; }
 </style>
@@ -415,25 +139,26 @@
 
 <div class="header">
   <div class="header-top">
-    <div>
-      <div class="app-title">Troškovi</div>
-      <div class="month-label" id="headerMonth"></div>
-    </div>
-    <div class="header-total">
-      <div class="total-label" id="totalLabel">Troškovi</div>
-      <div class="total-amount" id="totalAmount">0 <span>EUR</span></div>
+    <div class="app-title">Troškovi</div>
+    <div class="sync-badge">
+      <div class="sync-dot ok" id="syncDot"></div>
+      <span id="syncText">Sinkronizirano</span>
     </div>
   </div>
-  <div class="month-nav">
-    <button class="month-btn" onclick="changeMonth(-1)">‹</button>
-    <span class="current-month" id="currentMonth"></span>
-    <button class="month-btn" onclick="changeMonth(1)">›</button>
+  
+  <div class="hero-card">
+    <div class="header-top" style="margin:0">
+      <div>
+        <div class="hero-label" id="totalLabel">Ukupni Troškovi</div>
+        <div class="hero-amount" id="totalAmount">0 <span>EUR</span></div>
+      </div>
+    </div>
+    <div class="month-nav">
+      <button class="month-btn" onclick="changeMonth(-1)">‹</button>
+      <span class="current-month" id="currentMonth">Lipanj 2026</span>
+      <button class="month-btn" onclick="changeMonth(1)">›</button>
+    </div>
   </div>
-</div>
-
-<div class="sync-bar">
-  <div class="sync-dot loading" id="syncDot"></div>
-  <span id="syncText">Spajanje...</span>
 </div>
 
 <div class="summary-scroll" id="catPills"></div>
@@ -442,1055 +167,22 @@
   <div id="expenseList"></div>
 </div>
 
-<div id="viewPrihodi" class="view">
-  <div id="incomeList"></div>
-</div>
-
-<div id="viewStatistike" class="view">
-  <div class="stats-view" id="statsContent"></div>
-</div>
-
-<div id="viewAnaliza" class="view">
-  <div class="an-wrap" id="analizaContent"></div>
-</div>
-
-<div style="position:fixed;bottom:90px;right:20px;z-index:100;display:flex;flex-direction:column;align-items:flex-end;gap:10px" id="fabContainer">
-  <div id="fabMenu" style="display:none;flex-direction:column;gap:8px;align-items:flex-end">
-    <button onclick="openIncomeModal()" style="background:#4ecca3;border:none;border-radius:24px;padding:10px 18px;color:#0a1628;font-weight:700;font-size:14px;cursor:pointer;white-space:nowrap">+ Prihod</button>
-    <button onclick="openModal();toggleFab()" style="background:#e94560;border:none;border-radius:24px;padding:10px 18px;color:#fff;font-weight:700;font-size:14px;cursor:pointer;white-space:nowrap">+ Trošak</button>
-  </div>
-  <button class="fab" onclick="toggleFab()" id="mainFab" style="position:static">+</button>
-</div>
+<div class="fab" id="mainFab">+</div>
 
 <nav class="bottom-nav">
-  <button class="nav-item active" id="navTransakcije" onclick="switchView('Transakcije')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+  <button class="nav-item active" id="navTransakcije">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
     Troškovi
   </button>
-  <button class="nav-item" id="navPrihodi" onclick="switchView('Prihodi')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+  <button class="nav-item" id="navPrihodi">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
     Prihodi
   </button>
-  <button class="nav-item" id="navStatistike" onclick="switchView('Statistike')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 17v-4M12 17v-7M16 17v-2"/></svg>
+  <button class="nav-item" id="navStatistike">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 17v-4M12 17v-7M16 17v-2"/></svg>
     Statistike
-  </button>
-  <button class="nav-item" id="navAnaliza" onclick="switchView('Analiza')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg>
-    Analiza
   </button>
 </nav>
 
-<div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
-  <div class="modal">
-    <div class="modal-handle"></div>
-    <div class="modal-title">Novi trošak</div>
-
-    <div class="form-group">
-      <label class="form-label">Opis</label>
-      <input class="form-input" id="inputDesc" type="text" placeholder="npr. Kaufland tjedna kupovina" autocomplete="off">
-    </div>
-
-    <div class="form-group">
-      <label class="form-label">Iznos</label>
-      <div class="amount-row">
-        <input class="form-input" id="inputAmount" type="number" inputmode="decimal" placeholder="0.00" step="0.01" min="0">
-        <div class="currency-badge">EUR</div>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label class="form-label">Tko je platio</label>
-      <div class="who-row">
-        <button class="who-btn active" id="whoMatej" onclick="selectWho('Matej')">🧔 Matej</button>
-        <button class="who-btn" id="whoMartina" onclick="selectWho('Martina')">👩 Martina</button>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label class="form-label">Kategorija</label>
-      <div class="cat-grid" id="catGrid"></div>
-    </div>
-
-    <div class="form-group">
-      <label class="form-label">Datum</label>
-      <input class="form-input" id="inputDate" type="date">
-    </div>
-
-    <button class="submit-btn" id="submitBtn" onclick="addExpense()">Dodaj trošak</button>
-  </div>
-</div>
-
-<!-- ADD INCOME MODAL -->
-<div class="modal-overlay" id="incomeModalOverlay" onclick="closeIncomeModalOutside(event)">
-  <div class="modal">
-    <div class="modal-handle"></div>
-    <div class="modal-title" style="color:#0b8a5e">Novi prihod</div>
-
-    <div class="form-group">
-      <label class="form-label">Opis</label>
-      <input class="form-input" id="inputIncomeDesc" type="text" placeholder="npr. Plaća za lipanj" autocomplete="off">
-    </div>
-
-    <div class="form-group">
-      <label class="form-label">Iznos</label>
-      <div class="amount-row">
-        <input class="form-input" id="inputIncomeAmount" type="number" inputmode="decimal" placeholder="0.00" step="0.01" min="0">
-        <div class="currency-badge">EUR</div>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label class="form-label">Tko je primio</label>
-      <div class="who-row">
-        <button class="who-btn active" id="whoIncomeMatej" onclick="selectIncomeWho('Matej')">🧔 Matej</button>
-        <button class="who-btn" id="whoIncomeMartina" onclick="selectIncomeWho('Martina')">👩 Martina</button>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label class="form-label">Kategorija</label>
-      <div class="cat-grid" id="incomeCatGrid"></div>
-    </div>
-
-    <div class="form-group">
-      <label class="form-label">Datum</label>
-      <input class="form-input" id="inputIncomeDate" type="date">
-    </div>
-
-    <button class="submit-btn" id="incomeSubmitBtn" onclick="addIncome()" style="background:#4ecca3;color:#0a1628">Dodaj prihod</button>
-  </div>
-</div>
-
-<div class="toast" id="toast"></div>
-
-<script>
-const SUPABASE_URL = 'https://erlgqhhzihqsjtzqcxta.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVybGdxaGh6aWhxc2p0enFjeHRhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEwMjc5ODksImV4cCI6MjA5NjYwMzk4OX0.r8dFG0vhEErj2NuSa_hEiLExgJoV3lOgJ-fJw0Nz6I8';
-const TABLE = 'troskovi';
-
-const CATEGORIES = [
-  { id: 'hrana',     name: 'Hrana',      icon: '🛒', color: '#4ecca3' },
-  { id: 'shopping',  name: 'Shopping',   icon: '🛍️', color: '#f7b731' },
-  { id: 'kredit',    name: 'Kredit',     icon: '🏦', color: '#fd9644' },
-  { id: 'gorivo',    name: 'Gorivo',     icon: '⛽', color: '#a55eea' },
-  { id: 'restoran',  name: 'Restoran',   icon: '🍽️', color: '#fc5c65' },
-  { id: 'alat',      name: 'Alat',       icon: '🔧', color: '#778ca3' },
-  { id: 'djeca',     name: 'Djeca',      icon: '🧒', color: '#26de81' },
-  { id: 'zdravlje',  name: 'Zdravlje',   icon: '💊', color: '#ff6b81' },
-  { id: 'auto',      name: 'Auto',       icon: '🚗', color: '#a29bfe' },
-  { id: 'putovanje', name: 'Putovanje',  icon: '✈️', color: '#00cec9' },
-  { id: 'luksuz',    name: 'Luksuz',     icon: '💎', color: '#e17055' },
-  { id: 'svatovi',   name: 'Svatovi',    icon: '💍', color: '#fd79a8' },
-  { id: 'kuca',      name: 'Kuća',       icon: '🏠', color: '#55efc4' },
-  { id: 'materijal', name: 'Materijal',  icon: '🧱', color: '#b8860b' },
-  { id: 'majstor',   name: 'Majstor',    icon: '👷', color: '#cd853f' },
-  { id: 'rodjendan', name: 'Rođendan',   icon: '🎂', color: '#fd79a8' },
-  { id: 'vuk354mat',  name: 'Vuk. Materijal', icon: '🧱', color: '#00b894' },
-  { id: 'vuk354maj',  name: 'Vuk. Majstor',   icon: '👷', color: '#00cec9' },
-  { id: 'vuk354pap',  name: 'Vuk. Papiri',    icon: '📋', color: '#6c5ce7' },
-  { id: 'rezijeDjak',  name: 'Režije Đakovo',  icon: '💡', color: '#0984e3' },
-  { id: 'rezijeDiv',   name: 'Režije Divalt.',  icon: '💡', color: '#74b9ff' },
-  { id: 'rezijeVuk',   name: 'Režije Vuk.',     icon: '💡', color: '#00b894' },
-  { id: 'dionice',     name: 'Dionice',         icon: '📈', color: '#6c5ce7' },
-  { id: 'porezi',      name: 'Porezi',          icon: '🧾', color: '#d63031' },
-  { id: 'ostalo',    name: 'Ostalo',     icon: '📦', color: '#636e72' },
-];
-
-let expenses = [];
-let incomes = [];
-let selectedCat = null;
-let selectedWho = 'Matej';
-let filterCat = null;
-let currentDate = new Date();
-let currentView = 'Transakcije';
-let syncInterval = null;
-
-const INCOME_CATEGORIES = [
-  { id: 'placa',       name: 'Plaća',       icon: '💰', color: '#4ecca3' },
-  { id: 'poklon',      name: 'Poklon',      icon: '🎁', color: '#fd79a8' },
-  { id: 'najam',       name: 'Najam',       icon: '🏠', color: '#45aaf2' },
-  { id: 'investicije', name: 'Investicije', icon: '📈', color: '#f7b731' },
-  { id: 'bonus',       name: 'Bonus',       icon: '⭐', color: '#a55eea' },
-  { id: 'prodaja',     name: 'Prodaja',     icon: '🤝', color: '#fd9644' },
-  { id: 'ostalo',      name: 'Ostalo',      icon: '💵', color: '#636e72' },
-];
-
-const MONTHS = ['Siječanj','Veljača','Ožujak','Travanj','Svibanj','Lipanj','Srpanj','Kolovoz','Rujan','Listopad','Studeni','Prosinac'];
-
-// ── SYNC ──────────────────────────────────────────────
-function setSyncStatus(state, text) {
-  const dot = document.getElementById('syncDot');
-  const txt = document.getElementById('syncText');
-  dot.className = 'sync-dot ' + state;
-  txt.textContent = text;
-}
-
-async function fetchExpenses() {
-  try {
-    setSyncStatus('loading', 'Učitavanje...');
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/${encodeURIComponent(TABLE)}?select=*`, {
-      headers: {
-        'apikey': SUPABASE_KEY,
-        'Authorization': 'Bearer ' + SUPABASE_KEY
-      }
-    });
-    const data = await res.json();
-    expenses = data.map(r => ({
-      id: String(r.id),
-      desc: r.opis || '',
-      amount: parseFloat(r.iznos) || 0,
-      category: r.kategorija || '',
-      who: r.tko || '',
-      date: r.datum || ''
-    }));
-    const now = new Date();
-    setSyncStatus('ok', 'Sinkronizirano ' + now.toLocaleTimeString('hr-HR', {hour:'2-digit',minute:'2-digit'}));
-    render();
-  } catch(e) {
-    console.error(e);
-    setSyncStatus('err', 'Greška — provjeri internet');
-  }
-}
-
-async function pushExpense(expense) {
-  const body = JSON.stringify({
-    opis: expense.desc,
-    iznos: expense.amount,
-    kategorija: expense.category,
-    tko: expense.who,
-    datum: expense.date
-  });
-  const headers = {
-    'apikey': SUPABASE_KEY,
-    'Authorization': 'Bearer ' + SUPABASE_KEY,
-    'Content-Type': 'application/json',
-    'Prefer': 'return=minimal',
-    'Resolution': 'ignore-duplicates'
-  };
-  // Try up to 3 times
-  for (let attempt = 1; attempt <= 3; attempt++) {
-    try {
-      const res = await fetch(`${SUPABASE_URL}/rest/v1/${encodeURIComponent(TABLE)}`, {
-        method: 'POST', headers, body
-      });
-      if (res.ok) return;
-      if (attempt === 3) throw new Error('Insert failed after 3 attempts');
-    } catch(e) {
-      if (attempt === 3) throw e;
-      await new Promise(r => setTimeout(r, 1000 * attempt));
-    }
-  }
-}
-
-async function pushDelete(id) {
-  const res = await fetch(`${SUPABASE_URL}/rest/v1/${encodeURIComponent(TABLE)}?id=eq.${id}`, {
-    method: 'DELETE',
-    headers: {
-      'apikey': SUPABASE_KEY,
-      'Authorization': 'Bearer ' + SUPABASE_KEY
-    }
-  });
-  if (!res.ok) throw new Error('Delete failed');
-}
-
-// ── RENDER ────────────────────────────────────────────
-function getMonthExpenses() {
-  return expenses.filter(e => {
-    const d = new Date(e.date + 'T00:00:00');
-    return d.getMonth() === currentDate.getMonth() && d.getFullYear() === currentDate.getFullYear();
-  });
-}
-
-function changeMonth(dir) {
-  currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + dir, 1);
-  filterCat = null;
-  render();
-}
-
-function getMonthLabel() {
-  return MONTHS[currentDate.getMonth()] + ' ' + currentDate.getFullYear();
-}
-
-function formatAmt(n) {
-  return n.toLocaleString('hr-HR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-}
-
-function catById(id) { return CATEGORIES.find(c => c.id === id) || CATEGORIES[CATEGORIES.length-1]; }
-
-function render() {
-  const ml = getMonthLabel();
-  document.getElementById('headerMonth').textContent = ml;
-  document.getElementById('currentMonth').textContent = ml;
-  const monthExp = getMonthExpenses();
-  const monthInc = getMonthIncomes();
-  const totalExp = monthExp.reduce((s, e) => s + e.amount, 0);
-  const totalInc = monthInc.reduce((s, e) => s + e.amount, 0);
-  const saldo = totalInc - totalExp;
-  const saldoEl = document.getElementById('totalAmount');
-  const labelEl = document.getElementById('totalLabel');
-
-  if (currentView === 'Prihodi') {
-    saldoEl.innerHTML = `${formatAmt(totalInc)} <span>EUR</span>`;
-    saldoEl.style.color = '#0b8a5e';
-    labelEl.textContent = 'Prihodi';
-  } else if (currentView === 'Statistike') {
-    saldoEl.innerHTML = `${formatAmt(saldo)} <span>EUR</span>`;
-    saldoEl.style.color = saldo >= 0 ? '#0b8a5e' : '#e94560';
-    labelEl.textContent = 'Saldo';
-  } else if (currentView === 'Analiza') {
-    const allExp = expenses.reduce((s,e)=>s+e.amount,0);
-    saldoEl.innerHTML = `${formatAmt(allExp)} <span>EUR</span>`;
-    saldoEl.style.color = '#e94560';
-    labelEl.textContent = 'Sveukupno';
-  } else {
-    saldoEl.innerHTML = `${formatAmt(totalExp)} <span>EUR</span>`;
-    saldoEl.style.color = '#e94560';
-    labelEl.textContent = 'Troškovi';
-  }
-
-  document.getElementById('catPills').style.display = currentView === 'Analiza' ? 'none' : 'flex';
-  document.querySelector('.month-nav').style.display = currentView === 'Analiza' ? 'none' : 'flex';
-  renderCatPills(monthExp);
-  if (currentView === 'Transakcije') renderList(monthExp);
-  else if (currentView === 'Prihodi') renderIncomeList(monthInc);
-  else if (currentView === 'Analiza') renderAnaliza();
-  else renderStats(monthExp);
-}
-
-function renderCatPills(monthExp) {
-  const pills = document.getElementById('catPills');
-  const totals = {};
-  monthExp.forEach(e => { totals[e.category] = (totals[e.category] || 0) + e.amount; });
-  let html = `<div class="cat-pill ${!filterCat ? 'active' : ''}" onclick="setFilter(null)">
-    <span class="cat-pill-icon">📋</span>
-    <span class="cat-pill-name">Sve</span>
-    <span class="cat-pill-amount">${formatAmt(monthExp.reduce((s,e)=>s+e.amount,0))} €</span>
-  </div>`;
-  CATEGORIES.filter(c => totals[c.id]).forEach(c => {
-    html += `<div class="cat-pill ${filterCat===c.id ? 'active' : ''}" onclick="setFilter('${c.id}')">
-      <span class="cat-pill-icon">${c.icon}</span>
-      <span class="cat-pill-name">${c.name}</span>
-      <span class="cat-pill-amount">${formatAmt(totals[c.id]||0)} €</span>
-    </div>`;
-  });
-  pills.innerHTML = html;
-}
-
-function setFilter(cat) { filterCat = cat; render(); }
-
-function renderList(monthExp) {
-  const list = document.getElementById('expenseList');
-  let filtered = filterCat ? monthExp.filter(e => e.category === filterCat) : monthExp;
-  filtered = [...filtered].sort((a,b) => new Date(b.date) - new Date(a.date));
-  if (!filtered.length) {
-    list.innerHTML = `<div class="empty-state"><div class="empty-icon">💸</div><div class="empty-text">Nema troškova za ovaj mjesec.<br>Dodaj prvi trošak!</div></div>`;
-    return;
-  }
-  const groups = {};
-  filtered.forEach(e => {
-    const d = new Date(e.date + 'T00:00:00');
-    const key = d.toLocaleDateString('hr-HR', { weekday:'short', day:'numeric', month:'long' });
-    if (!groups[key]) groups[key] = [];
-    groups[key].push(e);
-  });
-  let html = '';
-  Object.entries(groups).forEach(([date, items]) => {
-    const dayTotal = items.reduce((s,e)=>s+e.amount, 0);
-    html += `<div class="section-header">${date} — ${formatAmt(dayTotal)} €</div>`;
-    items.forEach(e => {
-      const cat = catById(e.category);
-      html += `<div class="expense-item" id="item-${e.id}" onclick="toggleExpand('${e.id}')">
-        <div class="expense-icon" style="background:${cat.color}22">${cat.icon}</div>
-        <div class="expense-info">
-          <div class="expense-desc">${e.desc || cat.name}</div>
-          <div class="expense-meta">${cat.name}</div>
-        </div>
-        <div class="expense-right">
-          <div class="expense-amount">${formatAmt(e.amount)} €</div>
-          <div class="expense-who">${e.who}</div>
-        </div>
-        <button class="delete-btn" onclick="deleteExpense(event,'${e.id}')">✕</button>
-      </div>`;
-    });
-  });
-  list.innerHTML = html;
-}
-
-function toggleExpand(id) {
-  const el = document.getElementById('item-' + id);
-  const wasExpanded = el.classList.contains('expanded');
-  document.querySelectorAll('.expense-item.expanded').forEach(e => e.classList.remove('expanded'));
-  if (!wasExpanded) el.classList.add('expanded');
-}
-
-async function deleteExpense(ev, id) {
-  ev.stopPropagation();
-  if (!confirm('Obrisati ovaj trošak?')) return;
-  setSyncStatus('loading', 'Brisanje...');
-  try {
-    await pushDelete(id);
-    await fetchExpenses();
-    showToast('✓ Trošak obrisan');
-  } catch(e) {
-    setSyncStatus('err', 'Greška pri brisanju');
-    showToast('⚠️ Greška pri brisanju');
-  }
-}
-
-let statsDrillCat = null;
-
-function renderStats(monthExp) {
-  const stats = document.getElementById('statsContent');
-  if (!monthExp.length) {
-    stats.innerHTML = `<div class="empty-state"><div class="empty-icon">📊</div><div class="empty-text">Nema podataka za ovaj mjesec.</div></div>`;
-    return;
-  }
-
-  // DRILL DOWN VIEW
-  if (statsDrillCat) {
-    const cat = catById(statsDrillCat);
-    const filtered = monthExp.filter(e => e.category === statsDrillCat).sort((a,b) => new Date(b.date) - new Date(a.date));
-    const total = filtered.reduce((s,e)=>s+e.amount, 0);
-    let html = `<div style="height:12px"></div>`;
-    html += `<div style="margin:0 16px 12px;display:flex;align-items:center;gap:10px">
-      <button onclick="statsDrillCat=null;render()" style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 14px;color:var(--text);font-size:13px;cursor:pointer;font-family:var(--font)">← Natrag</button>
-      <span style="font-size:16px;font-weight:700">${cat.icon} ${cat.name} — ${formatAmt(total)} €</span>
-    </div>`;
-    html += `<div class="stats-card">`;
-    if (!filtered.length) {
-      html += `<div style="color:var(--muted);text-align:center;padding:20px">Nema troškova</div>`;
-    } else {
-      filtered.forEach(e => {
-        const d = new Date(e.date + 'T00:00:00');
-        const dateStr = d.toLocaleDateString('hr-HR', {day:'numeric', month:'short'});
-        html += `<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)">
-          <div>
-            <div style="font-size:14px;font-weight:600">${e.desc || cat.name}</div>
-            <div style="font-size:11px;color:var(--muted);margin-top:2px">${dateStr} · ${e.who}</div>
-          </div>
-          <div style="font-size:15px;font-weight:800;color:var(--accent)">${formatAmt(e.amount)} €</div>
-        </div>`;
-      });
-    }
-    html += `</div>`;
-    stats.innerHTML = html;
-    return;
-  }
-
-  // MAIN STATS VIEW
-  const total = monthExp.reduce((s,e)=>s+e.amount, 0);
-  const matejTotal = monthExp.filter(e=>e.who==='Matej').reduce((s,e)=>s+e.amount,0);
-  const martinaTotal = monthExp.filter(e=>e.who==='Martina').reduce((s,e)=>s+e.amount,0);
-  const catTotals = {};
-  monthExp.forEach(e => { catTotals[e.category] = (catTotals[e.category]||0) + e.amount; });
-  const sorted = Object.entries(catTotals).sort((a,b)=>b[1]-a[1]);
-  let html = `<div style="height:12px"></div>`;
-  html += `<div class="person-split">
-    <div class="split-card">
-      <div class="split-name">🧔 Matej</div>
-      <div class="split-amount" style="color:#d6467e">${formatAmt(matejTotal)} €</div>
-      <div class="split-pct">${total ? Math.round(matejTotal/total*100) : 0}% ukupno</div>
-    </div>
-    <div class="split-card">
-      <div class="split-name">👩 Martina</div>
-      <div class="split-amount" style="color:#d6467e">${formatAmt(martinaTotal)} €</div>
-      <div class="split-pct">${total ? Math.round(martinaTotal/total*100) : 0}% ukupno</div>
-    </div>
-  </div>`;
-  html += `<div class="stats-card">`;
-  sorted.forEach(([catId, amt]) => {
-    const cat = catById(catId);
-    const pct = total ? Math.round(amt/total*100) : 0;
-    html += `<div style="margin-bottom:14px;cursor:pointer" onclick="statsDrillCat='${catId}';render()">
-      <div class="stats-row">
-        <div class="stats-cat-name">${cat.icon} ${cat.name}</div>
-        <div style="display:flex;align-items:center;gap:8px">
-          <div class="stats-amount">${formatAmt(amt)} €</div>
-          <span style="color:var(--muted);font-size:16px">›</span>
-        </div>
-      </div>
-      <div class="progress-bar"><div class="progress-fill" style="width:${pct}%;background:${cat.color}"></div></div>
-      <div style="font-size:11px;color:var(--muted);margin-top:3px">${pct}% ukupnih troškova</div>
-    </div>`;
-  });
-  html += `</div>`;
-  stats.innerHTML = html;
-}
-
-// ── MODAL ─────────────────────────────────────────────
-function openModal() {
-  document.getElementById('modalOverlay').classList.add('open');
-  document.getElementById('inputDate').value = new Date().toISOString().split('T')[0];
-  document.getElementById('inputDesc').focus();
-}
-
-function closeModal() {
-  document.getElementById('modalOverlay').classList.remove('open');
-  selectedCat = null;
-  selectedWho = 'Matej';
-  document.getElementById('inputDesc').value = '';
-  document.getElementById('inputAmount').value = '';
-  document.getElementById('submitBtn').disabled = false;
-  document.getElementById('submitBtn').textContent = 'Dodaj trošak';
-  selectWho('Matej');
-  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('selected'));
-}
-
-function closeModalOutside(ev) {
-  if (ev.target === document.getElementById('modalOverlay')) closeModal();
-}
-
-function selectWho(who) {
-  selectedWho = who;
-  document.getElementById('whoMatej').classList.toggle('active', who==='Matej');
-  document.getElementById('whoMartina').classList.toggle('active', who==='Martina');
-}
-
-function buildCatGrid() {
-  const grid = document.getElementById('catGrid');
-  grid.innerHTML = CATEGORIES.map(c =>
-    `<div class="cat-btn" id="catbtn-${c.id}" onclick="selectCat('${c.id}')">
-      <span class="cat-btn-icon">${c.icon}</span>
-      <span class="cat-btn-name">${c.name}</span>
-    </div>`
-  ).join('');
-}
-
-function selectCat(id) {
-  selectedCat = id;
-  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('selected'));
-  document.getElementById('catbtn-' + id).classList.add('selected');
-}
-
-async function addExpense() {
-  const desc = document.getElementById('inputDesc').value.trim();
-  const amount = parseFloat(document.getElementById('inputAmount').value);
-  const date = document.getElementById('inputDate').value;
-  if (!amount || amount <= 0) { showToast('⚠️ Unesi iznos!'); return; }
-  if (!selectedCat) { showToast('⚠️ Odaberi kategoriju!'); return; }
-  if (!date) { showToast('⚠️ Odaberi datum!'); return; }
-
-  const cat = catById(selectedCat);
-  const expense = {
-    id: Date.now().toString(),
-    desc: desc || cat.name,
-    amount,
-    category: selectedCat,
-    who: selectedWho,
-    date
-  };
-
-  const btn = document.getElementById('submitBtn');
-  btn.disabled = true;
-  btn.textContent = 'Spremanje...';
-  setSyncStatus('loading', 'Spremanje...');
-
-  try {
-    await pushExpense(expense);
-    closeModal();
-    await fetchExpenses();
-    showToast('✓ Trošak dodan!');
-  } catch(e) {
-    btn.disabled = false;
-    btn.textContent = 'Dodaj trošak';
-    setSyncStatus('err', 'Greška pri spremanju');
-    showToast('⚠️ Greška — provjeri internet');
-  }
-}
-
-function switchView(view) {
-  currentView = view;
-  document.getElementById('viewTransakcije').classList.toggle('active', view==='Transakcije');
-  document.getElementById('viewPrihodi').classList.toggle('active', view==='Prihodi');
-  document.getElementById('viewStatistike').classList.toggle('active', view==='Statistike');
-  document.getElementById('viewAnaliza').classList.toggle('active', view==='Analiza');
-  document.getElementById('navTransakcije').classList.toggle('active', view==='Transakcije');
-  document.getElementById('navPrihodi').classList.toggle('active', view==='Prihodi');
-  document.getElementById('navStatistike').classList.toggle('active', view==='Statistike');
-  document.getElementById('navAnaliza').classList.toggle('active', view==='Analiza');
-  render();
-}
-
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2500);
-}
-
-
-// ── INCOME FUNCTIONS ─────────────────────────────────
-let selectedIncomeCat = null;
-let selectedIncomeWho = 'Matej';
-
-function incCatById(id) { return INCOME_CATEGORIES.find(c => c.id === id) || INCOME_CATEGORIES[INCOME_CATEGORIES.length-1]; }
-
-async function fetchIncomes() {
-  try {
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/prihodi?select=*`, {
-      headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
-    });
-    const data = await res.json();
-    if (Array.isArray(data)) {
-      incomes = data.map(r => ({
-        id: String(r.id),
-        desc: r.opis || '',
-        amount: parseFloat(r.iznos) || 0,
-        category: r.kategorija || '',
-        who: r.tko || '',
-        date: r.datum || ''
-      }));
-    }
-  } catch(e) { console.error('Income fetch error:', e); }
-}
-
-async function pushIncome(income) {
-  const res = await fetch(`${SUPABASE_URL}/rest/v1/prihodi`, {
-    method: 'POST',
-    headers: {
-      'apikey': SUPABASE_KEY,
-      'Authorization': 'Bearer ' + SUPABASE_KEY,
-      'Content-Type': 'application/json',
-      'Prefer': 'return=minimal'
-    },
-    body: JSON.stringify({
-      opis: income.desc,
-      iznos: income.amount,
-      kategorija: income.category,
-      tko: income.who,
-      datum: income.date
-    })
-  });
-  if (!res.ok) throw new Error('Insert failed');
-}
-
-async function pushDeleteIncome(id) {
-  await fetch(`${SUPABASE_URL}/rest/v1/prihodi?id=eq.${id}`, {
-    method: 'DELETE',
-    headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
-  });
-}
-
-function getMonthIncomes() {
-  return incomes.filter(e => {
-    const d = new Date(e.date + 'T00:00:00');
-    return d.getMonth() === currentDate.getMonth() && d.getFullYear() === currentDate.getFullYear();
-  });
-}
-
-function renderIncomeList(monthInc) {
-  const list = document.getElementById('incomeList');
-  let filtered = [...monthInc].sort((a,b) => new Date(b.date) - new Date(a.date));
-  if (!filtered.length) {
-    list.innerHTML = `<div class="empty-state"><div class="empty-icon">💰</div><div class="empty-text">Nema prihoda za ovaj mjesec.<br>Dodaj prvi prihod!</div></div>`;
-    return;
-  }
-  const groups = {};
-  filtered.forEach(e => {
-    const d = new Date(e.date + 'T00:00:00');
-    const key = d.toLocaleDateString('hr-HR', { weekday:'short', day:'numeric', month:'long' });
-    if (!groups[key]) groups[key] = [];
-    groups[key].push(e);
-  });
-  let html = '';
-  Object.entries(groups).forEach(([date, items]) => {
-    const dayTotal = items.reduce((s,e)=>s+e.amount, 0);
-    html += `<div class="section-header">${date} — ${formatAmt(dayTotal)} €</div>`;
-    items.forEach(e => {
-      const cat = incCatById(e.category);
-      html += `<div class="expense-item" id="inc-${e.id}" onclick="toggleExpandInc('${e.id}')">
-        <div class="expense-icon" style="background:${cat.color}22">${cat.icon}</div>
-        <div class="expense-info">
-          <div class="expense-desc">${e.desc || cat.name}</div>
-          <div class="expense-meta">${cat.name}</div>
-        </div>
-        <div class="expense-right">
-          <div class="expense-amount" style="color:#0b8a5e">+${formatAmt(e.amount)} €</div>
-          <div class="expense-who">${e.who}</div>
-        </div>
-        <button class="delete-btn" onclick="deleteIncome(event,'${e.id}')">✕</button>
-      </div>`;
-    });
-  });
-  list.innerHTML = html;
-}
-
-function toggleExpandInc(id) {
-  const el = document.getElementById('inc-' + id);
-  const wasExpanded = el.classList.contains('expanded');
-  document.querySelectorAll('.expense-item.expanded').forEach(e => e.classList.remove('expanded'));
-  if (!wasExpanded) el.classList.add('expanded');
-}
-
-async function deleteIncome(ev, id) {
-  ev.stopPropagation();
-  if (!confirm('Obrisati ovaj prihod?')) return;
-  try {
-    await pushDeleteIncome(id);
-    await fetchIncomes();
-    render();
-    showToast('✓ Prihod obrisan');
-  } catch(e) { showToast('⚠️ Greška pri brisanju'); }
-}
-
-function openIncomeModal() {
-  toggleFab();
-  document.getElementById('incomeModalOverlay').classList.add('open');
-  document.getElementById('inputIncomeDate').value = new Date().toISOString().split('T')[0];
-  document.getElementById('inputIncomeDesc').focus();
-}
-
-function closeIncomeModal() {
-  document.getElementById('incomeModalOverlay').classList.remove('open');
-  selectedIncomeCat = null;
-  selectedIncomeWho = 'Matej';
-  document.getElementById('inputIncomeDesc').value = '';
-  document.getElementById('inputIncomeAmount').value = '';
-  document.getElementById('incomeSubmitBtn').disabled = false;
-  document.getElementById('incomeSubmitBtn').textContent = 'Dodaj prihod';
-  selectIncomeWho('Matej');
-  document.querySelectorAll('#incomeCatGrid .cat-btn').forEach(b => b.classList.remove('selected'));
-}
-
-function closeIncomeModalOutside(ev) {
-  if (ev.target === document.getElementById('incomeModalOverlay')) closeIncomeModal();
-}
-
-function selectIncomeWho(who) {
-  selectedIncomeWho = who;
-  document.getElementById('whoIncomeMatej').classList.toggle('active', who==='Matej');
-  document.getElementById('whoIncomeMartina').classList.toggle('active', who==='Martina');
-}
-
-function buildIncomeCatGrid() {
-  const grid = document.getElementById('incomeCatGrid');
-  grid.innerHTML = INCOME_CATEGORIES.map(c =>
-    `<div class="cat-btn" id="inccatbtn-${c.id}" onclick="selectIncomeCat('${c.id}')">
-      <span class="cat-btn-icon">${c.icon}</span>
-      <span class="cat-btn-name">${c.name}</span>
-    </div>`
-  ).join('');
-}
-
-function selectIncomeCat(id) {
-  selectedIncomeCat = id;
-  document.querySelectorAll('#incomeCatGrid .cat-btn').forEach(b => b.classList.remove('selected'));
-  document.getElementById('inccatbtn-' + id).classList.add('selected');
-}
-
-async function addIncome() {
-  const desc = document.getElementById('inputIncomeDesc').value.trim();
-  const amount = parseFloat(document.getElementById('inputIncomeAmount').value);
-  const date = document.getElementById('inputIncomeDate').value;
-  if (!amount || amount <= 0) { showToast('⚠️ Unesi iznos!'); return; }
-  if (!selectedIncomeCat) { showToast('⚠️ Odaberi kategoriju!'); return; }
-  if (!date) { showToast('⚠️ Odaberi datum!'); return; }
-  const cat = incCatById(selectedIncomeCat);
-  const income = { id: Date.now().toString(), desc: desc || cat.name, amount, category: selectedIncomeCat, who: selectedIncomeWho, date };
-  const btn = document.getElementById('incomeSubmitBtn');
-  btn.disabled = true; btn.textContent = 'Spremanje...';
-  setSyncStatus('loading', 'Spremanje...');
-  try {
-    await pushIncome(income);
-    closeIncomeModal();
-    await fetchIncomes();
-    currentDate = new Date(date + 'T00:00:00');
-    render();
-    showToast('✓ Prihod dodan!');
-  } catch(e) {
-    btn.disabled = false; btn.textContent = 'Dodaj prihod';
-    setSyncStatus('err', 'Greška pri spremanju');
-    showToast('⚠️ Greška — provjeri internet');
-  }
-}
-
-function toggleFab() {
-  const menu = document.getElementById('fabMenu');
-  const fab = document.getElementById('mainFab');
-  const isOpen = menu.style.display === 'flex';
-  menu.style.display = isOpen ? 'none' : 'flex';
-  fab.textContent = isOpen ? '+' : '✕';
-}
-
-
-// ── ANALIZA ───────────────────────────────────────────
-const VUK_CATS = ['vuk354mat','vuk354maj','vuk354pap'];
-const FIN_RE = /(zatvorio male kredite|vratio filipu|filipu vratio)/i;
-let anOpenCat = null;
-let anDrill = null; // {cat, monthKey}
-
-function monthKey(dateStr) { return (dateStr || '').slice(0,7); }
-function monthLabel(key) {
-  const [y,m] = key.split('-');
-  return MONTHS[parseInt(m,10)-1].slice(0,3) + " " + y.slice(2);
-}
-function allMonthKeys() {
-  const set = new Set();
-  expenses.forEach(e => { if (e.date) set.add(monthKey(e.date)); });
-  incomes.forEach(e => { if (e.date) set.add(monthKey(e.date)); });
-  return [...set].sort();
-}
-function isFinOp(e) { return FIN_RE.test(e.desc || ''); }
-function isVuk(e) { return VUK_CATS.includes(e.category); }
-function isPozajmica(e) { return /(nenamjenski kredit|novac od filipa)/i.test(e.desc || ''); }
-
-function renderAnaliza() {
-  const el = document.getElementById('analizaContent');
-  if (!expenses.length) {
-    el.innerHTML = `<div class="empty-state"><div class="empty-icon">📊</div><div class="empty-text">Nema podataka za analizu.</div></div>`;
-    return;
-  }
-
-  const keys = allMonthKeys();
-  const fullMonths = Math.max(keys.length - 1, 1);
-
-  const totalAll = expenses.reduce((s,e)=>s+e.amount,0);
-  const vukList = expenses.filter(isVuk);
-  const vukTotal = vukList.reduce((s,e)=>s+e.amount,0);
-  const finList = expenses.filter(e => isFinOp(e) && !isVuk(e));
-  const finTotal = finList.reduce((s,e)=>s+e.amount,0);
-  const lifeList = expenses.filter(e => !isVuk(e) && !isFinOp(e));
-  const lifeTotal = lifeList.reduce((s,e)=>s+e.amount,0);
-  const creditList = lifeList.filter(e => e.category === 'kredit');
-  const creditTotal = creditList.reduce((s,e)=>s+e.amount,0);
-
-  const realInc = incomes.filter(e => !isPozajmica(e));
-  const realIncTotal = realInc.reduce((s,e)=>s+e.amount,0);
-  const loanTotal = incomes.filter(isPozajmica).reduce((s,e)=>s+e.amount,0);
-
-  const lifeAvg = lifeTotal / fullMonths;
-  const incAvg = realIncTotal / fullMonths;
-
-  let h = '';
-
-  // KPI
-  h += `<div class="an-kpi">
-    <div class="an-kpi-card"><div class="an-kpi-l">Sveukupno</div><div class="an-kpi-v" style="color:#e94560">${formatAmt(totalAll)} €</div><div class="an-kpi-s">${expenses.length} transakcija</div></div>
-    <div class="an-kpi-card"><div class="an-kpi-l">Vukovarska</div><div class="an-kpi-v" style="color:#068c5c">${formatAmt(vukTotal)} €</div><div class="an-kpi-s">${totalAll?Math.round(vukTotal/totalAll*100):0}% svih troškova</div></div>
-    <div class="an-kpi-card"><div class="an-kpi-l">Životni / mj</div><div class="an-kpi-v" style="color:#b8790a">${formatAmt(lifeAvg)} €</div><div class="an-kpi-s">prosjek ${fullMonths} mj</div></div>
-    <div class="an-kpi-card"><div class="an-kpi-l">Prihodi / mj</div><div class="an-kpi-v" style="color:#0b8a5e">${formatAmt(incAvg)} €</div><div class="an-kpi-s">bez pozajmica</div></div>
-  </div>`;
-
-  // DEKOMPOZICIJA
-  h += `<div class="an-sec">Gdje je otišlo</div><div class="an-card">`;
-  const segs = [
-    {n:'🏠 Vukovarska 354', d:'Investicija u nekretninu — materijal, majstori, papiri', a:vukTotal, c:'#068c5c'},
-    {n:'🔄 Financijske operacije', d:'Zatvaranje kredita, povrat pozajmica — jednokratno', a:finTotal, c:'#0a6fc2'},
-    {n:'🏦 Redovni krediti', d:`Rate ~${formatAmt(creditTotal/fullMonths)} €/mj`, a:creditTotal, c:'#e94560'},
-    {n:'🛒 Životni troškovi', d:'Sve ostalo — hrana, djeca, režije, luksuz...', a:lifeTotal-creditTotal, c:'#b8790a'}
-  ];
-  segs.forEach(s => {
-    const p = totalAll ? s.a/totalAll*100 : 0;
-    h += `<div class="an-seg"><div class="an-seg-dot" style="background:${s.c}"></div>
-      <div class="an-seg-i"><div class="an-seg-n">${s.n}</div><div class="an-seg-d">${s.d}</div>
-      <div class="an-cat-bar" style="margin-top:6px"><div class="an-cat-fill" style="width:${p}%;background:${s.c}"></div></div></div>
-      <div><div class="an-seg-a" style="color:${s.c}">${formatAmt(s.a)} €</div><div class="an-seg-p">${p.toFixed(1)}%</div></div></div>`;
-  });
-  h += `</div>`;
-
-  // MATRICA — kategorije akordeon
-  const catTotals = {};
-  expenses.forEach(e => {
-    if (!catTotals[e.category]) catTotals[e.category] = { total:0, months:{} };
-    catTotals[e.category].total += e.amount;
-    const k = monthKey(e.date);
-    catTotals[e.category].months[k] = (catTotals[e.category].months[k]||0) + e.amount;
-  });
-  const sortedCats = Object.entries(catTotals).sort((a,b)=>b[1].total-a[1].total);
-  const maxCat = sortedCats.length ? sortedCats[0][1].total : 1;
-
-  h += `<div class="an-sec">Kategorije po mjesecima</div>`;
-  h += `<div class="an-note">Tapni kategoriju da vidiš mjesece. Tapni mjesec da vidiš pojedinačne stavke.</div>`;
-  h += `<div class="an-card">`;
-  sortedCats.forEach(([catId, data]) => {
-    const cat = catById(catId);
-    const open = anOpenCat === catId;
-    const pct = totalAll ? data.total/totalAll*100 : 0;
-    h += `<div class="an-cat ${open?'open':''}">
-      <div class="an-cat-head" onclick="anToggleCat('${catId}')">
-        <div class="an-cat-ico">${cat.icon}</div>
-        <div class="an-cat-name">${cat.name}
-          <div class="an-cat-bar"><div class="an-cat-fill" style="width:${data.total/maxCat*100}%;background:${cat.color}"></div></div>
-        </div>
-        <div><div class="an-cat-amt">${formatAmt(data.total)} €</div><div class="an-cat-pct">${pct.toFixed(1)}%</div></div>
-        <div class="an-cat-arrow">›</div>
-      </div>
-      <div class="an-cat-body">`;
-    if (open) {
-      const monthVals = keys.map(k => data.months[k] || 0);
-      const maxM = Math.max(...monthVals, 1);
-      keys.forEach((k, i) => {
-        const v = monthVals[i];
-        if (v <= 0) return;
-        const isDrill = anDrill && anDrill.cat === catId && anDrill.month === k;
-        h += `<div class="an-mrow ${v>2000?'hot':''}" onclick="anDrillTo('${catId}','${k}')">
-          <div class="an-mrow-l">${monthLabel(k)}</div>
-          <div class="an-mrow-bar"><div class="an-mrow-fill" style="width:${v/maxM*100}%;background:${cat.color}"></div></div>
-          <div class="an-mrow-a">${formatAmt(v)} €</div>
-        </div>`;
-        if (isDrill) h += anDrillHtml(catId, k);
-      });
-    }
-    h += `</div></div>`;
-  });
-  h += `</div>`;
-
-  // ŽIVOTNI PO MJESECU
-  const lifeByMonth = {}, incByMonth = {}, vukByMonth = {};
-  lifeList.forEach(e => { const k=monthKey(e.date); lifeByMonth[k]=(lifeByMonth[k]||0)+e.amount; });
-  realInc.forEach(e => { const k=monthKey(e.date); incByMonth[k]=(incByMonth[k]||0)+e.amount; });
-  vukList.forEach(e => { const k=monthKey(e.date); vukByMonth[k]=(vukByMonth[k]||0)+e.amount; });
-  const maxLife = Math.max(...keys.map(k=>lifeByMonth[k]||0), 1);
-
-  h += `<div class="an-sec">Životni troškovi po mjesecu</div><div class="an-card" style="padding:14px">`;
-  keys.forEach(k => {
-    const v = lifeByMonth[k]||0;
-    const w = Math.max(v/maxLife*100, 6);
-    const hot = v >= maxLife*0.95;
-    h += `<div class="an-brow"><div class="an-blbl">${monthLabel(k)}</div>
-      <div class="an-btrack"><div class="an-bfill" style="width:${w}%;background:${hot?'linear-gradient(90deg,#e94560,#c0392b)':'linear-gradient(90deg,#45aaf2,#2980b9)'}">${formatAmt(v)} €</div></div></div>`;
-  });
-  h += `<div style="font-size:10px;color:var(--muted);margin-top:8px">Bez Vukovarske i jednokratnih financijskih operacija</div></div>`;
-
-  // VUKOVARSKA
-  const vm = {};
-  VUK_CATS.forEach(vc => { vm[vc] = expenses.filter(e=>e.category===vc).reduce((s,e)=>s+e.amount,0); });
-  const maxVuk = Math.max(...keys.map(k=>vukByMonth[k]||0), 1);
-  h += `<div class="an-sec">Vukovarska 354</div><div class="an-card" style="padding:16px 14px">
-    <div style="font-size:32px;font-weight:900;color:#068c5c;letter-spacing:-1px">${formatAmt(vukTotal)} €</div>
-    <div style="font-size:11px;color:var(--muted);margin-bottom:14px">${totalAll?Math.round(vukTotal/totalAll*100):0}% svih troškova</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px">`;
-  [['vuk354mat','🧱','Materijal'],['vuk354maj','👷','Majstori'],['vuk354pap','📋','Papiri']].forEach(([id,ic,nm]) => {
-    const a = vm[id]||0;
-    h += `<div style="background:rgba(0,214,143,0.06);border:1px solid rgba(0,214,143,0.2);border-radius:11px;padding:12px 6px;text-align:center">
-      <div style="font-size:18px">${ic}</div>
-      <div style="font-size:9px;color:var(--muted);font-weight:700;letter-spacing:0.5px;text-transform:uppercase;margin:3px 0">${nm}</div>
-      <div style="font-size:14px;font-weight:800;color:#068c5c">${formatAmt(a)} €</div>
-      <div style="font-size:9px;color:var(--muted)">${vukTotal?Math.round(a/vukTotal*100):0}%</div></div>`;
-  });
-  h += `</div>`;
-  keys.forEach(k => {
-    const v = vukByMonth[k]||0;
-    if (v<=0) return;
-    h += `<div class="an-brow"><div class="an-blbl">${monthLabel(k)}</div>
-      <div class="an-btrack"><div class="an-bfill" style="width:${Math.max(v/maxVuk*100,6)}%;background:linear-gradient(90deg,#00d68f,#00a86b)">${formatAmt(v)} €</div></div></div>`;
-  });
-  h += `</div>`;
-
-  // PRIHODI
-  const incCats = {};
-  realInc.forEach(e => { incCats[e.category] = (incCats[e.category]||0) + e.amount; });
-  h += `<div class="an-sec">Prihodi</div><div class="an-card" style="padding:14px">`;
-  Object.entries(incCats).sort((a,b)=>b[1]-a[1]).forEach(([cid,amt]) => {
-    const ic = incCatById(cid);
-    h += `<div class="an-srow"><div style="flex:1;font-size:13px;font-weight:600">${ic.icon} ${ic.name}</div>
-      <div style="font-size:14px;font-weight:800;color:#0b8a5e">${formatAmt(amt)} €</div></div>`;
-  });
-  h += `<div class="an-srow" style="border-top:1px solid var(--border);margin-top:6px;padding-top:10px">
-      <div style="flex:1;font-size:12px;color:var(--muted);font-weight:700">REALNI PRIHODI</div>
-      <div style="font-size:16px;font-weight:900;color:#0b8a5e">${formatAmt(realIncTotal)} €</div></div>`;
-  if (loanTotal > 0) {
-    h += `<div class="an-srow"><div style="flex:1;font-size:12px;color:var(--muted);font-weight:700">+ Pozajmice / krediti</div>
-      <div style="font-size:14px;font-weight:800;color:#0a6fc2">${formatAmt(loanTotal)} €</div></div>`;
-  }
-  h += `</div>`;
-
-  // FILIP — dug
-  const filipPrimio = incomes.filter(e => /novac od filipa/i.test(e.desc||'')).reduce((s,e)=>s+e.amount,0);
-  if (filipPrimio > 0) {
-    // Otplate glavnice = jednokratne veće uplate (>=1000 €), rate su zaseban trošak
-    const filipSve = expenses.filter(e => /filip/i.test(e.desc||'') && e.category === 'kredit');
-    const filipGlavnica = filipSve.filter(e => e.amount >= 1000);
-    const filipRate = filipSve.filter(e => e.amount < 1000);
-    const otplaceno = filipGlavnica.reduce((s,e)=>s+e.amount,0);
-    const ostatak = filipPrimio - otplaceno;
-    const rateUkupno = filipRate.reduce((s,e)=>s+e.amount,0);
-    // Aktualna rata = zadnja rata plaćena NAKON zadnje otplate glavnice
-    const zadnjaOtplata = filipGlavnica.length
-      ? filipGlavnica.map(e=>e.date).sort().slice(-1)[0] : null;
-    const rateNakon = filipRate
-      .filter(e => !zadnjaOtplata || e.date > zadnjaOtplata)
-      .sort((a,b)=> new Date(b.date)-new Date(a.date));
-    const zadnjaRata = rateNakon.length ? rateNakon[0].amount : null;
-
-    h += `<div class="an-sec">Filip — status duga</div><div class="an-filip">
-      <div class="an-frow"><div class="an-fname">💰 Primio od Filipa</div><div class="an-famt" style="color:#0a6fc2">${formatAmt(filipPrimio)} €</div></div>`;
-    filipGlavnica.sort((a,b)=>new Date(a.date)-new Date(b.date)).forEach(e => {
-      const d = new Date(e.date + 'T00:00:00');
-      h += `<div class="an-frow"><div class="an-fname">💸 Otplata glavnice — ${d.toLocaleDateString('hr-HR',{month:'long',year:'numeric'})}</div><div class="an-famt" style="color:#e94560">− ${formatAmt(e.amount)} €</div></div>`;
-    });
-    h += `<div class="an-frow" style="border-top:1px solid var(--border);margin-top:6px;padding-top:10px">
-        <div class="an-fname" style="font-weight:700;color:var(--text);font-size:13px">🔵 Preostala glavnica</div>
-        <div class="an-famt" style="color:#0a6fc2;font-size:18px">${formatAmt(ostatak)} €</div></div>
-      <div class="an-frow" style="border-top:1px solid var(--border);margin-top:10px;padding-top:10px">
-        <div class="an-fname">📅 Mjesečna rata (zaseban trošak)</div>
-        <div class="an-famt" style="color:${zadnjaRata!==null?'#b8790a':'var(--muted)'}">${zadnjaRata!==null ? formatAmt(zadnjaRata)+' €/mj' : 'nije unesena'}</div></div>
-      <div class="an-frow"><div class="an-fname">Ukupno plaćeno u ratama</div><div class="an-famt" style="color:#b8790a">${formatAmt(rateUkupno)} €</div></div>
-      <div style="font-size:10px;color:var(--muted);margin-top:10px;line-height:1.5">Rata ne umanjuje glavnicu — to je odvojen mjesečni trošak. Glavnica ostaje fiksna dok se ne vrati jednokratnom uplatom.${zadnjaRata===null ? '<br><span style="color:#b8790a">Nema evidentirane rate nakon zadnje otplate glavnice.</span>' : ''}</div>
-    </div>`;
-  }
-
-  // SALDO PO MJESECU
-  h += `<div class="an-sec">Saldo po mjesecu</div><div class="an-card" style="padding:14px">
-    <div style="display:flex;gap:10px;font-size:10px;color:var(--muted);margin-bottom:8px"><span>🟢 Prihodi</span><span>🔴 Životni troškovi</span></div>`;
-  keys.forEach(k => {
-    const t = lifeByMonth[k]||0, p = incByMonth[k]||0, s = p-t;
-    h += `<div class="an-srow"><div class="an-smj">${monthLabel(k)}</div>
-      <div class="an-sp">${formatAmt(p)}</div><div class="an-st">${formatAmt(t)}</div>
-      <div class="an-ss" style="color:${s>=0?'#0b8a5e':'#e94560'}">${s>=0?'+':'−'}${formatAmt(Math.abs(s))}</div></div>`;
-  });
-  const totSaldo = realIncTotal - lifeTotal;
-  h += `<div class="an-srow" style="border-top:1px solid var(--border);margin-top:6px;padding-top:10px">
-    <div style="flex:1;font-size:12px;color:var(--muted);font-weight:700">UKUPNO</div>
-    <div style="font-size:16px;font-weight:900;color:${totSaldo>=0?'#0b8a5e':'#e94560'}">${totSaldo>=0?'+':'−'}${formatAmt(Math.abs(totSaldo))} €</div></div>`;
-  h += `<div style="font-size:10px;color:var(--muted);margin-top:8px">Realni prihodi minus životni troškovi. Vukovarska se financira kreditima.</div></div>`;
-
-  h += `<div style="height:20px"></div>`;
-  el.innerHTML = h;
-}
-
-function anDrillHtml(catId, k) {
-  const cat = catById(catId);
-  const rows = expenses.filter(e => e.category === catId && monthKey(e.date) === k)
-    .sort((a,b) => new Date(b.date) - new Date(a.date));
-  const tot = rows.reduce((s,e)=>s+e.amount,0);
-  let h = `<div class="an-drill"><div class="an-drill-h">
-    <div class="an-drill-t">${monthLabel(k)} · ${formatAmt(tot)} € <span style="color:var(--muted);font-weight:500">(${rows.length})</span></div>
-    <button class="an-drill-x" onclick="event.stopPropagation();anCloseDrill()">✕</button></div>`;
-  rows.forEach(e => {
-    const d = new Date(e.date + 'T00:00:00');
-    h += `<div class="an-tx"><div><div class="an-tx-d">${e.desc || cat.name}</div>
-      <div class="an-tx-m">${d.toLocaleDateString('hr-HR',{day:'numeric',month:'short'})} · ${e.who}</div></div>
-      <div class="an-tx-a">${formatAmt(e.amount)} €</div></div>`;
-  });
-  return h + `</div>`;
-}
-
-function anToggleCat(catId) {
-  anOpenCat = (anOpenCat === catId) ? null : catId;
-  anDrill = null;
-  renderAnaliza();
-}
-function anDrillTo(catId, k) {
-  event.stopPropagation();
-  if (anDrill && anDrill.cat === catId && anDrill.month === k) anDrill = null;
-  else anDrill = { cat: catId, month: k };
-  renderAnaliza();
-}
-function anCloseDrill() { anDrill = null; renderAnaliza(); }
-
-// ── INIT ──────────────────────────────────────────────
-buildCatGrid();
-buildIncomeCatGrid();
-fetchExpenses();
-fetchIncomes();
-// Auto-refresh svakih 30 sekundi
-syncInterval = setInterval(() => { fetchExpenses(); fetchIncomes(); }, 30000);
-// Refresh kad se vrati u app (npr. iz backgrounda)
-document.addEventListener('visibilitychange', () => {
-  if (document.visibilityState === 'visible') { fetchExpenses(); fetchIncomes(); }
-});
-</script>
 </body>
 </html>
