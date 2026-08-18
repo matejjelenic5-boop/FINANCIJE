@@ -9,14 +9,14 @@
 <title>Troškovi</title>
 <style>
   :root {
-    --bg: #0f0f1a;
-    --surface: #1a1a2e;
-    --card: #16213e;
+    --bg: #e7e9f2;
+    --surface: #ffffff;
+    --card: #ffffff;
     --accent: #e94560;
     --accent2: #0f3460;
-    --text: #eaeaea;
-    --muted: #8888aa;
-    --border: #2a2a4a;
+    --text: #14142b;
+    --muted: #6b7086;
+    --border: #d6d9e6;
     --success: #4ecca3;
     --radius: 16px;
     --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
@@ -34,19 +34,12 @@
 
   /* HEADER */
   .header {
-    background: linear-gradient(135deg, var(--accent2), #0a1628);
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    border-radius: 0 0 22px 22px;
     padding: 48px 20px 24px;
     position: relative;
     overflow: hidden;
-  }
-  .header::before {
-    content: '';
-    position: absolute;
-    top: -40px; right: -40px;
-    width: 180px; height: 180px;
-    background: var(--accent);
-    border-radius: 50%;
-    opacity: 0.08;
   }
   .header-top { display: flex; justify-content: space-between; align-items: flex-start; }
   .app-title { font-size: 13px; font-weight: 600; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; }
@@ -58,7 +51,7 @@
 
   .month-nav { display: flex; align-items: center; gap: 12px; margin-top: 18px; }
   .month-btn {
-    background: rgba(255,255,255,0.08);
+    background: var(--bg);
     border: 1px solid var(--border);
     color: var(--text);
     width: 36px; height: 36px;
@@ -68,7 +61,7 @@
     display: flex; align-items: center; justify-content: center;
     transition: background 0.15s;
   }
-  .month-btn:active { background: rgba(255,255,255,0.16); }
+  .month-btn:active { background: var(--border); }
   .current-month { font-size: 16px; font-weight: 600; flex: 1; }
 
   /* SYNC STATUS */
@@ -359,12 +352,12 @@
   .an-sec::after { content: ''; flex: 1; height: 1px; background: var(--border); }
   .an-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 4px 14px; margin-bottom: 10px; }
   /* kategorija akordeon */
-  .an-cat { border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .an-cat { border-bottom: 1px solid rgba(0,0,0,0.06); }
   .an-cat:last-child { border-bottom: none; }
   .an-cat-head { display: flex; align-items: center; gap: 10px; padding: 12px 0; cursor: pointer; }
   .an-cat-ico { font-size: 18px; width: 26px; text-align: center; flex-shrink: 0; }
   .an-cat-name { font-size: 14px; font-weight: 600; flex: 1; min-width: 0; }
-  .an-cat-bar { height: 4px; background: rgba(255,255,255,0.07); border-radius: 2px; overflow: hidden; margin-top: 5px; }
+  .an-cat-bar { height: 4px; background: rgba(0,0,0,0.08); border-radius: 2px; overflow: hidden; margin-top: 5px; }
   .an-cat-fill { height: 100%; border-radius: 2px; }
   .an-cat-amt { font-size: 14px; font-weight: 800; white-space: nowrap; }
   .an-cat-pct { font-size: 10px; color: var(--muted); text-align: right; margin-top: 2px; }
@@ -372,19 +365,19 @@
   .an-cat.open .an-cat-arrow { transform: rotate(90deg); }
   .an-cat-body { display: none; padding: 0 0 12px 36px; }
   .an-cat.open .an-cat-body { display: block; }
-  .an-mrow { display: flex; align-items: center; gap: 8px; padding: 6px 0; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.03); }
+  .an-mrow { display: flex; align-items: center; gap: 8px; padding: 6px 0; cursor: pointer; border-bottom: 1px solid rgba(0,0,0,0.05); }
   .an-mrow:last-child { border-bottom: none; }
   .an-mrow-l { font-size: 12px; color: var(--muted); width: 52px; flex-shrink: 0; }
-  .an-mrow-bar { flex: 1; height: 5px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden; }
+  .an-mrow-bar { flex: 1; height: 5px; background: rgba(0,0,0,0.07); border-radius: 3px; overflow: hidden; }
   .an-mrow-fill { height: 100%; border-radius: 3px; }
   .an-mrow-a { font-size: 12px; font-weight: 700; width: 78px; text-align: right; white-space: nowrap; }
-  .an-mrow.hot .an-mrow-a { color: #ff8fa0; }
+  .an-mrow.hot .an-mrow-a { color: var(--accent); }
   /* drill */
   .an-drill { background: rgba(69,170,242,0.07); border: 1px solid rgba(69,170,242,0.3); border-radius: 12px; padding: 12px; margin: 8px 0 10px; }
   .an-drill-h { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 8px; }
   .an-drill-t { font-size: 12px; font-weight: 700; }
-  .an-drill-x { background: rgba(255,255,255,0.08); border: 1px solid var(--border); color: var(--text); border-radius: 7px; padding: 3px 9px; font-size: 11px; cursor: pointer; font-family: var(--font); flex-shrink: 0; }
-  .an-tx { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .an-drill-x { background: var(--bg); border: 1px solid var(--border); color: var(--text); border-radius: 7px; padding: 3px 9px; font-size: 11px; cursor: pointer; font-family: var(--font); flex-shrink: 0; }
+  .an-tx { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 6px 0; border-bottom: 1px solid rgba(0,0,0,0.06); }
   .an-tx:last-child { border-bottom: none; }
   .an-tx-d { font-size: 12px; font-weight: 600; word-break: break-word; }
   .an-tx-m { font-size: 10px; color: var(--muted); margin-top: 1px; }
@@ -392,21 +385,21 @@
   /* mjesečni bar */
   .an-brow { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; }
   .an-blbl { font-size: 11px; color: var(--muted); width: 50px; flex-shrink: 0; text-align: right; }
-  .an-btrack { flex: 1; height: 22px; background: rgba(255,255,255,0.04); border-radius: 5px; overflow: hidden; }
+  .an-btrack { flex: 1; height: 22px; background: rgba(0,0,0,0.05); border-radius: 5px; overflow: hidden; }
   .an-bfill { height: 100%; border-radius: 5px; display: flex; align-items: center; padding-left: 8px; font-size: 10px; font-weight: 700; color: #fff; min-width: 62px; }
   /* saldo */
-  .an-srow { display: flex; align-items: center; gap: 6px; padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+  .an-srow { display: flex; align-items: center; gap: 6px; padding: 7px 0; border-bottom: 1px solid rgba(0,0,0,0.05); }
   .an-srow:last-child { border-bottom: none; }
   .an-smj { font-size: 11px; font-weight: 600; width: 48px; flex-shrink: 0; }
   .an-sp { font-size: 11px; color: var(--success); flex: 1; text-align: right; }
   .an-st { font-size: 11px; color: var(--accent); flex: 1; text-align: right; }
   .an-ss { font-size: 11px; font-weight: 800; width: 72px; text-align: right; }
   .an-filip { background: rgba(69,170,242,0.07); border: 1px solid rgba(69,170,242,0.3); border-radius: 14px; padding: 16px 14px; margin-bottom: 10px; }
-  .an-frow { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .an-frow { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.06); }
   .an-frow:last-child { border-bottom: none; }
   .an-fname { font-size: 12px; color: var(--muted); flex: 1; }
   .an-famt { font-size: 13px; font-weight: 800; white-space: nowrap; }
-  .an-seg { display: flex; align-items: flex-start; gap: 10px; padding: 11px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .an-seg { display: flex; align-items: flex-start; gap: 10px; padding: 11px 0; border-bottom: 1px solid rgba(0,0,0,0.06); }
   .an-seg:last-child { border-bottom: none; }
   .an-seg-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
   .an-seg-i { flex: 1; min-width: 0; }
@@ -415,8 +408,7 @@
   .an-seg-a { font-size: 15px; font-weight: 800; white-space: nowrap; text-align: right; }
   .an-seg-p { font-size: 10px; color: var(--muted); margin-top: 2px; text-align: right; }
 
-  .view { display: none; }
-  .view.active { display: block; }
+  .view { display: none; } .view.active { display: block; }
 </style>
 </head>
 <body>
@@ -533,7 +525,7 @@
 <div class="modal-overlay" id="incomeModalOverlay" onclick="closeIncomeModalOutside(event)">
   <div class="modal">
     <div class="modal-handle"></div>
-    <div class="modal-title" style="color:#4ecca3">Novi prihod</div>
+    <div class="modal-title" style="color:#0b8a5e">Novi prihod</div>
 
     <div class="form-group">
       <label class="form-label">Opis</label>
@@ -740,11 +732,11 @@ function render() {
 
   if (currentView === 'Prihodi') {
     saldoEl.innerHTML = `${formatAmt(totalInc)} <span>EUR</span>`;
-    saldoEl.style.color = '#4ecca3';
+    saldoEl.style.color = '#0b8a5e';
     labelEl.textContent = 'Prihodi';
   } else if (currentView === 'Statistike') {
     saldoEl.innerHTML = `${formatAmt(saldo)} <span>EUR</span>`;
-    saldoEl.style.color = saldo >= 0 ? '#4ecca3' : '#e94560';
+    saldoEl.style.color = saldo >= 0 ? '#0b8a5e' : '#e94560';
     labelEl.textContent = 'Saldo';
   } else if (currentView === 'Analiza') {
     const allExp = expenses.reduce((s,e)=>s+e.amount,0);
@@ -897,12 +889,12 @@ function renderStats(monthExp) {
   html += `<div class="person-split">
     <div class="split-card">
       <div class="split-name">🧔 Matej</div>
-      <div class="split-amount" style="color:#fd79a8">${formatAmt(matejTotal)} €</div>
+      <div class="split-amount" style="color:#d6467e">${formatAmt(matejTotal)} €</div>
       <div class="split-pct">${total ? Math.round(matejTotal/total*100) : 0}% ukupno</div>
     </div>
     <div class="split-card">
       <div class="split-name">👩 Martina</div>
-      <div class="split-amount" style="color:#fd79a8">${formatAmt(martinaTotal)} €</div>
+      <div class="split-amount" style="color:#d6467e">${formatAmt(martinaTotal)} €</div>
       <div class="split-pct">${total ? Math.round(martinaTotal/total*100) : 0}% ukupno</div>
     </div>
   </div>`;
@@ -1114,7 +1106,7 @@ function renderIncomeList(monthInc) {
           <div class="expense-meta">${cat.name}</div>
         </div>
         <div class="expense-right">
-          <div class="expense-amount" style="color:#4ecca3">+${formatAmt(e.amount)} €</div>
+          <div class="expense-amount" style="color:#0b8a5e">+${formatAmt(e.amount)} €</div>
           <div class="expense-who">${e.who}</div>
         </div>
         <button class="delete-btn" onclick="deleteIncome(event,'${e.id}')">✕</button>
@@ -1275,18 +1267,18 @@ function renderAnaliza() {
   // KPI
   h += `<div class="an-kpi">
     <div class="an-kpi-card"><div class="an-kpi-l">Sveukupno</div><div class="an-kpi-v" style="color:#e94560">${formatAmt(totalAll)} €</div><div class="an-kpi-s">${expenses.length} transakcija</div></div>
-    <div class="an-kpi-card"><div class="an-kpi-l">Vukovarska</div><div class="an-kpi-v" style="color:#00d68f">${formatAmt(vukTotal)} €</div><div class="an-kpi-s">${totalAll?Math.round(vukTotal/totalAll*100):0}% svih troškova</div></div>
-    <div class="an-kpi-card"><div class="an-kpi-l">Životni / mj</div><div class="an-kpi-v" style="color:#f7b731">${formatAmt(lifeAvg)} €</div><div class="an-kpi-s">prosjek ${fullMonths} mj</div></div>
-    <div class="an-kpi-card"><div class="an-kpi-l">Prihodi / mj</div><div class="an-kpi-v" style="color:#4ecca3">${formatAmt(incAvg)} €</div><div class="an-kpi-s">bez pozajmica</div></div>
+    <div class="an-kpi-card"><div class="an-kpi-l">Vukovarska</div><div class="an-kpi-v" style="color:#068c5c">${formatAmt(vukTotal)} €</div><div class="an-kpi-s">${totalAll?Math.round(vukTotal/totalAll*100):0}% svih troškova</div></div>
+    <div class="an-kpi-card"><div class="an-kpi-l">Životni / mj</div><div class="an-kpi-v" style="color:#b8790a">${formatAmt(lifeAvg)} €</div><div class="an-kpi-s">prosjek ${fullMonths} mj</div></div>
+    <div class="an-kpi-card"><div class="an-kpi-l">Prihodi / mj</div><div class="an-kpi-v" style="color:#0b8a5e">${formatAmt(incAvg)} €</div><div class="an-kpi-s">bez pozajmica</div></div>
   </div>`;
 
   // DEKOMPOZICIJA
   h += `<div class="an-sec">Gdje je otišlo</div><div class="an-card">`;
   const segs = [
-    {n:'🏠 Vukovarska 354', d:'Investicija u nekretninu — materijal, majstori, papiri', a:vukTotal, c:'#00d68f'},
-    {n:'🔄 Financijske operacije', d:'Zatvaranje kredita, povrat pozajmica — jednokratno', a:finTotal, c:'#45aaf2'},
+    {n:'🏠 Vukovarska 354', d:'Investicija u nekretninu — materijal, majstori, papiri', a:vukTotal, c:'#068c5c'},
+    {n:'🔄 Financijske operacije', d:'Zatvaranje kredita, povrat pozajmica — jednokratno', a:finTotal, c:'#0a6fc2'},
     {n:'🏦 Redovni krediti', d:`Rate ~${formatAmt(creditTotal/fullMonths)} €/mj`, a:creditTotal, c:'#e94560'},
-    {n:'🛒 Životni troškovi', d:'Sve ostalo — hrana, djeca, režije, luksuz...', a:lifeTotal-creditTotal, c:'#f7b731'}
+    {n:'🛒 Životni troškovi', d:'Sve ostalo — hrana, djeca, režije, luksuz...', a:lifeTotal-creditTotal, c:'#b8790a'}
   ];
   segs.forEach(s => {
     const p = totalAll ? s.a/totalAll*100 : 0;
@@ -1321,7 +1313,7 @@ function renderAnaliza() {
         <div class="an-cat-name">${cat.name}
           <div class="an-cat-bar"><div class="an-cat-fill" style="width:${data.total/maxCat*100}%;background:${cat.color}"></div></div>
         </div>
-        <div><div class="an-cat-amt" style="color:${cat.color}">${formatAmt(data.total)} €</div><div class="an-cat-pct">${pct.toFixed(1)}%</div></div>
+        <div><div class="an-cat-amt">${formatAmt(data.total)} €</div><div class="an-cat-pct">${pct.toFixed(1)}%</div></div>
         <div class="an-cat-arrow">›</div>
       </div>
       <div class="an-cat-body">`;
@@ -1366,7 +1358,7 @@ function renderAnaliza() {
   VUK_CATS.forEach(vc => { vm[vc] = expenses.filter(e=>e.category===vc).reduce((s,e)=>s+e.amount,0); });
   const maxVuk = Math.max(...keys.map(k=>vukByMonth[k]||0), 1);
   h += `<div class="an-sec">Vukovarska 354</div><div class="an-card" style="padding:16px 14px">
-    <div style="font-size:32px;font-weight:900;color:#00d68f;letter-spacing:-1px">${formatAmt(vukTotal)} €</div>
+    <div style="font-size:32px;font-weight:900;color:#068c5c;letter-spacing:-1px">${formatAmt(vukTotal)} €</div>
     <div style="font-size:11px;color:var(--muted);margin-bottom:14px">${totalAll?Math.round(vukTotal/totalAll*100):0}% svih troškova</div>
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px">`;
   [['vuk354mat','🧱','Materijal'],['vuk354maj','👷','Majstori'],['vuk354pap','📋','Papiri']].forEach(([id,ic,nm]) => {
@@ -1374,7 +1366,7 @@ function renderAnaliza() {
     h += `<div style="background:rgba(0,214,143,0.06);border:1px solid rgba(0,214,143,0.2);border-radius:11px;padding:12px 6px;text-align:center">
       <div style="font-size:18px">${ic}</div>
       <div style="font-size:9px;color:var(--muted);font-weight:700;letter-spacing:0.5px;text-transform:uppercase;margin:3px 0">${nm}</div>
-      <div style="font-size:14px;font-weight:800;color:#00d68f">${formatAmt(a)} €</div>
+      <div style="font-size:14px;font-weight:800;color:#068c5c">${formatAmt(a)} €</div>
       <div style="font-size:9px;color:var(--muted)">${vukTotal?Math.round(a/vukTotal*100):0}%</div></div>`;
   });
   h += `</div>`;
@@ -1393,14 +1385,14 @@ function renderAnaliza() {
   Object.entries(incCats).sort((a,b)=>b[1]-a[1]).forEach(([cid,amt]) => {
     const ic = incCatById(cid);
     h += `<div class="an-srow"><div style="flex:1;font-size:13px;font-weight:600">${ic.icon} ${ic.name}</div>
-      <div style="font-size:14px;font-weight:800;color:#4ecca3">${formatAmt(amt)} €</div></div>`;
+      <div style="font-size:14px;font-weight:800;color:#0b8a5e">${formatAmt(amt)} €</div></div>`;
   });
   h += `<div class="an-srow" style="border-top:1px solid var(--border);margin-top:6px;padding-top:10px">
       <div style="flex:1;font-size:12px;color:var(--muted);font-weight:700">REALNI PRIHODI</div>
-      <div style="font-size:16px;font-weight:900;color:#4ecca3">${formatAmt(realIncTotal)} €</div></div>`;
+      <div style="font-size:16px;font-weight:900;color:#0b8a5e">${formatAmt(realIncTotal)} €</div></div>`;
   if (loanTotal > 0) {
     h += `<div class="an-srow"><div style="flex:1;font-size:12px;color:var(--muted);font-weight:700">+ Pozajmice / krediti</div>
-      <div style="font-size:14px;font-weight:800;color:#45aaf2">${formatAmt(loanTotal)} €</div></div>`;
+      <div style="font-size:14px;font-weight:800;color:#0a6fc2">${formatAmt(loanTotal)} €</div></div>`;
   }
   h += `</div>`;
 
@@ -1414,21 +1406,28 @@ function renderAnaliza() {
     const otplaceno = filipGlavnica.reduce((s,e)=>s+e.amount,0);
     const ostatak = filipPrimio - otplaceno;
     const rateUkupno = filipRate.reduce((s,e)=>s+e.amount,0);
-    const zadnjaRata = filipRate.length ? filipRate.sort((a,b)=>new Date(b.date)-new Date(a.date))[0].amount : 0;
+    // Aktualna rata = zadnja rata plaćena NAKON zadnje otplate glavnice
+    const zadnjaOtplata = filipGlavnica.length
+      ? filipGlavnica.map(e=>e.date).sort().slice(-1)[0] : null;
+    const rateNakon = filipRate
+      .filter(e => !zadnjaOtplata || e.date > zadnjaOtplata)
+      .sort((a,b)=> new Date(b.date)-new Date(a.date));
+    const zadnjaRata = rateNakon.length ? rateNakon[0].amount : null;
 
     h += `<div class="an-sec">Filip — status duga</div><div class="an-filip">
-      <div class="an-frow"><div class="an-fname">💰 Primio od Filipa</div><div class="an-famt" style="color:#45aaf2">${formatAmt(filipPrimio)} €</div></div>`;
+      <div class="an-frow"><div class="an-fname">💰 Primio od Filipa</div><div class="an-famt" style="color:#0a6fc2">${formatAmt(filipPrimio)} €</div></div>`;
     filipGlavnica.sort((a,b)=>new Date(a.date)-new Date(b.date)).forEach(e => {
       const d = new Date(e.date + 'T00:00:00');
       h += `<div class="an-frow"><div class="an-fname">💸 Otplata glavnice — ${d.toLocaleDateString('hr-HR',{month:'long',year:'numeric'})}</div><div class="an-famt" style="color:#e94560">− ${formatAmt(e.amount)} €</div></div>`;
     });
     h += `<div class="an-frow" style="border-top:1px solid var(--border);margin-top:6px;padding-top:10px">
         <div class="an-fname" style="font-weight:700;color:var(--text);font-size:13px">🔵 Preostala glavnica</div>
-        <div class="an-famt" style="color:#45aaf2;font-size:18px">${formatAmt(ostatak)} €</div></div>
+        <div class="an-famt" style="color:#0a6fc2;font-size:18px">${formatAmt(ostatak)} €</div></div>
       <div class="an-frow" style="border-top:1px solid var(--border);margin-top:10px;padding-top:10px">
-        <div class="an-fname">📅 Mjesečna rata (zaseban trošak)</div><div class="an-famt" style="color:#f7b731">${formatAmt(zadnjaRata)} €/mj</div></div>
-      <div class="an-frow"><div class="an-fname">Ukupno plaćeno u ratama</div><div class="an-famt" style="color:#f7b731">${formatAmt(rateUkupno)} €</div></div>
-      <div style="font-size:10px;color:var(--muted);margin-top:10px;line-height:1.5">Rata ne umanjuje glavnicu — to je odvojen mjesečni trošak. Glavnica ostaje fiksna dok se ne vrati jednokratnom uplatom.</div>
+        <div class="an-fname">📅 Mjesečna rata (zaseban trošak)</div>
+        <div class="an-famt" style="color:${zadnjaRata!==null?'#b8790a':'var(--muted)'}">${zadnjaRata!==null ? formatAmt(zadnjaRata)+' €/mj' : 'nije unesena'}</div></div>
+      <div class="an-frow"><div class="an-fname">Ukupno plaćeno u ratama</div><div class="an-famt" style="color:#b8790a">${formatAmt(rateUkupno)} €</div></div>
+      <div style="font-size:10px;color:var(--muted);margin-top:10px;line-height:1.5">Rata ne umanjuje glavnicu — to je odvojen mjesečni trošak. Glavnica ostaje fiksna dok se ne vrati jednokratnom uplatom.${zadnjaRata===null ? '<br><span style="color:#b8790a">Nema evidentirane rate nakon zadnje otplate glavnice.</span>' : ''}</div>
     </div>`;
   }
 
@@ -1439,12 +1438,12 @@ function renderAnaliza() {
     const t = lifeByMonth[k]||0, p = incByMonth[k]||0, s = p-t;
     h += `<div class="an-srow"><div class="an-smj">${monthLabel(k)}</div>
       <div class="an-sp">${formatAmt(p)}</div><div class="an-st">${formatAmt(t)}</div>
-      <div class="an-ss" style="color:${s>=0?'#4ecca3':'#e94560'}">${s>=0?'+':'−'}${formatAmt(Math.abs(s))}</div></div>`;
+      <div class="an-ss" style="color:${s>=0?'#0b8a5e':'#e94560'}">${s>=0?'+':'−'}${formatAmt(Math.abs(s))}</div></div>`;
   });
   const totSaldo = realIncTotal - lifeTotal;
   h += `<div class="an-srow" style="border-top:1px solid var(--border);margin-top:6px;padding-top:10px">
     <div style="flex:1;font-size:12px;color:var(--muted);font-weight:700">UKUPNO</div>
-    <div style="font-size:16px;font-weight:900;color:${totSaldo>=0?'#4ecca3':'#e94560'}">${totSaldo>=0?'+':'−'}${formatAmt(Math.abs(totSaldo))} €</div></div>`;
+    <div style="font-size:16px;font-weight:900;color:${totSaldo>=0?'#0b8a5e':'#e94560'}">${totSaldo>=0?'+':'−'}${formatAmt(Math.abs(totSaldo))} €</div></div>`;
   h += `<div style="font-size:10px;color:var(--muted);margin-top:8px">Realni prihodi minus životni troškovi. Vukovarska se financira kreditima.</div></div>`;
 
   h += `<div style="height:20px"></div>`;
