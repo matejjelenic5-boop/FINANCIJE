@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="color-scheme" content="only light">
 <meta name="theme-color" content="#e9f0fb" id="themeColorMeta">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -14,7 +15,7 @@
 <title>Troškovi</title>
 <style>
   :root {
-    color-scheme: light;
+    color-scheme: only light;
     --accent: #0A84FF;
     --accent-2: #0669D6;
     --danger: #FF3B30;
@@ -64,7 +65,7 @@
   }
 
   html[data-theme="dark"] {
-    color-scheme: dark;
+    color-scheme: only light; /* aplikacija sama crta tamnu temu; "only light" sprječava da je preglednik još jednom zatamni */
     --accent: #0A84FF;
     --accent-2: #6FB6FF;
     --danger: #FF453A;
@@ -542,16 +543,6 @@
   .month-btn { color:#fff; }
   .nav-sep { background:rgba(255,255,255,0.35); }
 
-  /* stupci potrošnje zadnjih 7 dana */
-  .spark { display:flex; align-items:flex-end; gap:6px; height:44px; margin-top:14px; transition:height .2s, margin .2s, opacity .2s; }
-  .spark i { flex:1; border-radius:5px; background:rgba(255,255,255,0.28); min-height:4px; }
-  .spark i.hi { background:#fff; }
-  .spark-l { display:flex; gap:6px; margin-top:5px; font-size:10px; color:rgba(255,255,255,0.72); transition:opacity .2s; }
-  .spark-l span { flex:1; text-align:center; }
-  .header.compact .spark { height:0; margin-top:0; opacity:0; overflow:hidden; }
-  .header.compact .spark-l { display:none; }
-  .header.no-spark .spark, .header.no-spark .spark-l { display:none; }
-
   /* kategorije */
   .cat-pill {
     background:var(--chip); -webkit-backdrop-filter:none; backdrop-filter:none;
@@ -618,8 +609,6 @@
       <button class="month-btn" onclick="changeMonth(1)">›</button>
     </div>
   </div>
-  <div class="spark" id="spark"></div>
-  <div class="spark-l" id="sparkL"></div>
 </div>
 
 <div class="summary-scroll" id="catPills"></div>
@@ -954,35 +943,10 @@ function render() {
   document.getElementById('catPills').style.display = currentView === 'Analiza' ? 'none' : 'flex';
   document.getElementById('monthNav').style.display = currentView === 'Analiza' ? 'none' : 'flex';
   renderCatPills(monthExp);
-  renderSpark();
   if (currentView === 'Transakcije') renderList(monthExp);
   else if (currentView === 'Prihodi') renderIncomeList(monthInc);
   else if (currentView === 'Analiza') renderAnaliza();
   else renderStats(monthExp);
-}
-
-// Stupci potrošnje: zadnjih 7 dana (za tekući mjesec do danas, inače do kraja prikazanog mjeseca)
-function renderSpark() {
-  const hdr = document.querySelector('.header');
-  const box = document.getElementById('spark');
-  const lbl = document.getElementById('sparkL');
-  if (!hdr || !box || !lbl) return;
-  const show = currentView === 'Transakcije';
-  hdr.classList.toggle('no-spark', !show);
-  if (!show) return;
-  const key = d => d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
-  const today = new Date(); today.setHours(0,0,0,0);
-  const sameMonth = currentDate.getMonth() === today.getMonth() && currentDate.getFullYear() === today.getFullYear();
-  const end = sameMonth ? today : new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
-  const days = [];
-  for (let i = 6; i >= 0; i--) days.push(new Date(end.getFullYear(), end.getMonth(), end.getDate() - i));
-  const sums = days.map(d => expenses.filter(e => e.date === key(d)).reduce((s, e) => s + e.amount, 0));
-  const max = Math.max(...sums);
-  const names = ['N','P','U','S','Č','P','S'];
-  box.innerHTML = sums.map((v, i) =>
-    `<i class="${max > 0 && v === max ? 'hi' : ''}" style="height:${max > 0 ? Math.max(9, Math.round(v / max * 100)) : 9}%" title="${formatAmt(v)} €"></i>`
-  ).join('');
-  lbl.innerHTML = days.map(d => `<span>${names[d.getDay()]}</span>`).join('');
 }
 
 function renderCatPills(monthExp) {
@@ -1707,13 +1671,6 @@ function anDrillTo(catId, k) {
 function anCloseDrill() { anDrill = null; renderAnaliza(); }
 
 // ── INIT ──────────────────────────────────────────────
-// zaglavlje se sažme (sakrije stupce) kad se popis pomakne prema dolje
-window.addEventListener('scroll', () => {
-  const h = document.querySelector('.header');
-  if (!h) return;
-  if (window.scrollY > 70) h.classList.add('compact');
-  else if (window.scrollY < 10) h.classList.remove('compact');
-}, { passive: true });
 buildCatGrid();
 buildIncomeCatGrid();
 fetchExpenses();
